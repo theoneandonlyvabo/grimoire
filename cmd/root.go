@@ -4,11 +4,15 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/theoneandonlyvabo/grimoire/ui"
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "grim",
-	Short: "Grimoire — Technical memory for your codebase, straight from the terminal.",
+	Use:   "grimoire",
+	Short: "Technical memory for your codebase, straight from the terminal.",
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return ui.StartMenu()
+	},
 }
 
 func Execute() {

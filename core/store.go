@@ -3,6 +3,7 @@ package core
 import (
 	"encoding/json"
 	"os"
+	"time"
 )
 
 const GrimoireFile = ".grim"
@@ -24,11 +25,32 @@ type MetaData struct {
 }
 
 type Doc struct {
-	ID          string `json:"id"`
-	LinkedFile  string `json:"linked_file"`
-	Description string `json:"description"`
-	Notes       string `json:"notes"`
-	Status      string `json:"status"`
+	ID          string     `json:"id"`
+	LinkedFile  string     `json:"linked_file"`
+	Description string     `json:"description"`
+	Status      string     `json:"status"`
+	Author      string     `json:"author"`
+	UpdatedAt   string     `json:"updated_at"`
+	Functions   []Function `json:"functions"`
+}
+
+type Function struct {
+	Name      string `json:"name"`
+	Signature string `json:"signature"`
+	Notes     string `json:"notes"`
+	Author    string `json:"author"`
+	UpdatedAt string `json:"updated_at"`
+}
+
+func NewDoc(file string, author string) Doc {
+	return Doc{
+		ID:         file,
+		LinkedFile: file,
+		Status:     "wip",
+		Author:     author,
+		UpdatedAt:  time.Now().Format("2006-01-02 15:04"),
+		Functions:  []Function{},
+	}
 }
 
 func Load() (*Grimoire, error) {

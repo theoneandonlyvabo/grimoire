@@ -20,6 +20,14 @@ func IsGitRepo() bool {
 	return err == nil
 }
 
+func GetUserName() string {
+	name, err := runGit("config", "user.name")
+	if err != nil {
+		return "unknown"
+	}
+	return name
+}
+
 func GetMetadata() (MetaData, error) {
 	repo, _ := runGit("remote", "get-url", "origin")
 	branch, _ := runGit("branch", "--show-current")
@@ -47,7 +55,6 @@ func getContributors() []string {
 	if err != nil {
 		return []string{}
 	}
-
 	lines := strings.Split(raw, "\n")
 	seen := map[string]bool{}
 	var contributors []string
