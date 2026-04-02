@@ -8,9 +8,9 @@ import (
 
 func runGit(args ...string) (string, error) {
 	cmd := exec.Command("git", args...)
-	out, cmd.Err = cmd.Output()
-	if cmd.Err != nil {
-		return "", cmd.Err
+	out, err := cmd.Output()
+	if err != nil {
+		return "", err
 	}
 	return strings.TrimSpace(string(out)), nil
 }
