@@ -1,0 +1,468 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "repository": "https://github.com/theoneandonlyvabo/grimoire.git",
+    "branch": "main",
+    "commits": 5,
+    "last_commit": "958df93",
+    "last_commit_message": "Programming Language Parser, Function Notes Maker",
+    "last_commit_date": "2026-04-02 18:49:29 +0700",
+    "contributors": [
+      "Airel Adrivano"
+    ]
+  },
+  "documents": [
+    {
+      "id": "cmd\\carve.go",
+      "linked_file": "cmd\\carve.go",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-02 18:52",
+      "functions": [
+        {
+          "name": "init",
+          "signature": "func init()",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        }
+      ]
+    },
+    {
+      "id": "cmd\\cast.go",
+      "linked_file": "cmd\\cast.go",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-02 18:52",
+      "functions": [
+        {
+          "name": "init",
+          "signature": "func init()",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        }
+      ]
+    },
+    {
+      "id": "cmd\\forge.go",
+      "linked_file": "cmd\\forge.go",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-02 18:52",
+      "functions": [
+        {
+          "name": "init",
+          "signature": "func init()",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        }
+      ]
+    },
+    {
+      "id": "cmd\\root.go",
+      "linked_file": "cmd\\root.go",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-02 18:52",
+      "functions": [
+        {
+          "name": "Execute",
+          "signature": "func Execute()",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        }
+      ]
+    },
+    {
+      "id": "core\\git.go",
+      "linked_file": "core\\git.go",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-02 18:52",
+      "functions": [
+        {
+          "name": "runGit",
+          "signature": "func runGit(args ...string) (string, error)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "IsGitRepo",
+          "signature": "func IsGitRepo() bool",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "GetUserName",
+          "signature": "func GetUserName() string",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "GetMetadata",
+          "signature": "func GetMetadata() (MetaData, error)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "getContributors",
+          "signature": "func getContributors() []string",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        }
+      ]
+    },
+    {
+      "id": "core\\parser.go",
+      "linked_file": "core\\parser.go",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-02 18:52",
+      "functions": [
+        {
+          "name": "ParseFunctions",
+          "signature": "func ParseFunctions(filepath string) []Function",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "extractFunction",
+          "signature": "func extractFunction(line string, ext string) (name string, signature string, ok bool)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "extractGo",
+          "signature": "func extractGo(line string) (string, string, bool)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "extractJava",
+          "signature": "func extractJava(line string) (string, string, bool)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "extractJS",
+          "signature": "func extractJS(line string) (string, string, bool)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "extractPython",
+          "signature": "func extractPython(line string) (string, string, bool)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        }
+      ]
+    },
+    {
+      "id": "core\\scanner.go",
+      "linked_file": "core\\scanner.go",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-02 18:52",
+      "functions": [
+        {
+          "name": "ScanFiles",
+          "signature": "func ScanFiles(root string) ([]string, error)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        }
+      ]
+    },
+    {
+      "id": "core\\store.go",
+      "linked_file": "core\\store.go",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-02 18:52",
+      "functions": [
+        {
+          "name": "NewDoc",
+          "signature": "func NewDoc(file string, author string) Doc",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "Load",
+          "signature": "func Load() (*Grimoire, error)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "Save",
+          "signature": "func Save(grim *Grimoire) error",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        }
+      ]
+    },
+    {
+      "id": "go.mod",
+      "linked_file": "go.mod",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-02 18:52",
+      "functions": null
+    },
+    {
+      "id": "go.sum",
+      "linked_file": "go.sum",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-02 18:52",
+      "functions": null
+    },
+    {
+      "id": "main.go",
+      "linked_file": "main.go",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-02 18:52",
+      "functions": [
+        {
+          "name": "main",
+          "signature": "func main()",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        }
+      ]
+    },
+    {
+      "id": "ui\\actions.go",
+      "linked_file": "ui\\actions.go",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-02 18:52",
+      "functions": [
+        {
+          "name": "RunForge",
+          "signature": "func RunForge() error",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "RunCarve",
+          "signature": "func RunCarve() error",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "RunCast",
+          "signature": "func RunCast() error",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        }
+      ]
+    },
+    {
+      "id": "ui\\app.go",
+      "linked_file": "ui\\app.go",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-02 18:52",
+      "functions": [
+        {
+          "name": "Start",
+          "signature": "func Start(grimoire *core.Grimoire, readOnly bool) error",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "buildTree",
+          "signature": "func buildTree(grimoire *core.Grimoire) []TreeNode",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "splitPath",
+          "signature": "func splitPath(path string) []string",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "findFirstDoc",
+          "signature": "func findFirstDoc(state *AppState) *core.Doc",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        }
+      ]
+    },
+    {
+      "id": "ui\\input.go",
+      "linked_file": "ui\\input.go",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-02 18:52",
+      "functions": [
+        {
+          "name": "handleKey",
+          "signature": "func handleKey(screen tcell.Screen, state *AppState, ev *tcell.EventKey) bool",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "updateActiveDoc",
+          "signature": "func updateActiveDoc(state *AppState)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "confirmQuit",
+          "signature": "func confirmQuit(screen tcell.Screen, state *AppState) bool",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "rebuildVisibleTree",
+          "signature": "func rebuildVisibleTree(state *AppState) []TreeNode",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        }
+      ]
+    },
+    {
+      "id": "ui\\menu.go",
+      "linked_file": "ui\\menu.go",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-02 18:52",
+      "functions": [
+        {
+          "name": "StartMenu",
+          "signature": "func StartMenu() error",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "runFromMenu",
+          "signature": "func runFromMenu(command string) error",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        }
+      ]
+    },
+    {
+      "id": "ui\\renderer.go",
+      "linked_file": "ui\\renderer.go",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-02 18:52",
+      "functions": [
+        {
+          "name": "drawText",
+          "signature": "func drawText(screen tcell.Screen, x, y int, style tcell.Style, text string)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "drawFill",
+          "signature": "func drawFill(screen tcell.Screen, x1, y1, x2, y2 int, style tcell.Style)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "renderHeader",
+          "signature": "func renderHeader(screen tcell.Screen, grim *core.Grimoire, width int)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "renderSidebar",
+          "signature": "func renderSidebar(screen tcell.Screen, state *AppState, startY int, height int)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "renderEditor",
+          "signature": "func renderEditor(screen tcell.Screen, state *AppState, startX, startY, width, height int)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "renderMenu",
+          "signature": "func renderMenu(screen tcell.Screen, selected int)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "renderFooter",
+          "signature": "func renderFooter(screen tcell.Screen, state *AppState, y, width int)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "wrapText",
+          "signature": "func wrapText(text string, width int) []string",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "render",
+          "signature": "func render(screen tcell.Screen, state *AppState)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        }
+      ]
+    }
+  ]
+}

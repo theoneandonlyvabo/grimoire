@@ -14,7 +14,8 @@ func handleKey(screen tcell.Screen, state *AppState, ev *tcell.EventKey) bool {
 		return true
 
 	case tcell.KeyRune:
-		if ev.Rune() == 'q' || ev.Rune() == 'Q' {
+		switch ev.Rune() {
+		case 'q', 'Q':
 			if state.Dirty {
 				return confirmQuit(screen, state)
 			}
@@ -55,7 +56,10 @@ func handleKey(screen tcell.Screen, state *AppState, ev *tcell.EventKey) bool {
 			node := state.Tree[state.ActiveIndex]
 			if node.IsFolder {
 				state.Tree[state.ActiveIndex].Expanded = !state.Tree[state.ActiveIndex].Expanded
-				state.Tree = rebuildVisibleTree(state)
+				newTree := rebuildVisibleTree(state)
+				state.Tree = newTree
+			} else {
+				updateActiveDoc(state)
 			}
 		}
 
@@ -70,6 +74,9 @@ func handleKey(screen tcell.Screen, state *AppState, ev *tcell.EventKey) bool {
 }
 
 func updateActiveDoc(state *AppState) {
+	if state.ActiveIndex >= len(state.Tree) {
+		return
+	}
 	node := state.Tree[state.ActiveIndex]
 	if !node.IsFolder && node.Doc != nil {
 		state.ActiveDoc = node.Doc
@@ -78,10 +85,12 @@ func updateActiveDoc(state *AppState) {
 
 func confirmQuit(screen tcell.Screen, state *AppState) bool {
 	w, h := screen.Size()
-	msg := "unsaved changes. quit anyway? (y/n)"
+	msg := "  unsaved changes. quit anyway? (y/n)  "
 	x := w/2 - len(msg)/2
 	y := h / 2
-	drawText(screen, x, y, styleAccent, msg)
+	fill(screen, x-1, y-1, x+len(msg), y+1, stSurface)
+	drawBox(screen, x-2, y-2, x+len(msg)+1, y+2, stBorder)
+	draw(screen, x, y, stDefault, msg)
 	screen.Show()
 
 	for {
@@ -95,8 +104,4 @@ func confirmQuit(screen tcell.Screen, state *AppState) bool {
 			}
 		}
 	}
-}
-
-func rebuildVisibleTree(state *AppState) []TreeNode {
-	return state.Tree
 }

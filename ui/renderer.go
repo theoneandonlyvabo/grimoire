@@ -9,203 +9,378 @@ import (
 )
 
 var (
-	styleDefault = tcell.StyleDefault.Background(tcell.ColorReset).Foreground(tcell.NewRGBColor(201, 199, 190))
-	styleDim     = tcell.StyleDefault.Foreground(tcell.NewRGBColor(85, 85, 96))
-	styleAccent  = tcell.StyleDefault.Foreground(tcell.NewRGBColor(201, 169, 110))
-	styleGreen   = tcell.StyleDefault.Foreground(tcell.NewRGBColor(58, 138, 90))
-	styleRed     = tcell.StyleDefault.Foreground(tcell.NewRGBColor(138, 58, 58))
-	styleMuted   = tcell.StyleDefault.Foreground(tcell.NewRGBColor(106, 106, 117))
-	styleHeader  = tcell.StyleDefault.Background(tcell.NewRGBColor(16, 16, 18)).Foreground(tcell.NewRGBColor(201, 199, 190))
-	styleSidebar = tcell.StyleDefault.Background(tcell.NewRGBColor(12, 12, 14)).Foreground(tcell.NewRGBColor(85, 85, 96))
-	styleActive  = tcell.StyleDefault.Background(tcell.NewRGBColor(24, 24, 32)).Foreground(tcell.NewRGBColor(201, 169, 110))
-	styleFooter  = tcell.StyleDefault.Background(tcell.NewRGBColor(16, 16, 18)).Foreground(tcell.NewRGBColor(53, 53, 56))
+	colBackground = tcell.NewRGBColor(10, 10, 10)
+	colSurface    = tcell.NewRGBColor(16, 16, 16)
+	colBorder     = tcell.NewRGBColor(201, 169, 110)
+	colBorderDim  = tcell.NewRGBColor(50, 48, 40)
+	colTextPri    = tcell.NewRGBColor(232, 228, 216)
+	colTextMuted  = tcell.NewRGBColor(102, 102, 96)
+	colTextDim    = tcell.NewRGBColor(51, 51, 48)
+	colAmber      = tcell.NewRGBColor(240, 192, 112)
+	colAmberBase  = tcell.NewRGBColor(201, 169, 110)
+	colRed        = tcell.NewRGBColor(201, 110, 110)
+	colYellow     = tcell.NewRGBColor(201, 194, 110)
+	colGreen      = tcell.NewRGBColor(110, 201, 138)
+	colBlue       = tcell.NewRGBColor(110, 158, 201)
+	colIndigo     = tcell.NewRGBColor(126, 110, 201)
+	colPurple     = tcell.NewRGBColor(169, 110, 201)
+
+	stDefault = tcell.StyleDefault.Background(colBackground).Foreground(colTextPri)
+	stMuted   = tcell.StyleDefault.Background(colBackground).Foreground(colTextMuted)
+	stDim     = tcell.StyleDefault.Background(colBackground).Foreground(colTextDim)
+	stAmber   = tcell.StyleDefault.Background(colBackground).Foreground(colAmber)
+	stBorder  = tcell.StyleDefault.Background(colBackground).Foreground(colBorder)
+	stSurface = tcell.StyleDefault.Background(colSurface).Foreground(colTextPri)
+	stActive  = tcell.StyleDefault.Background(colSurface).Foreground(colAmber)
 )
 
-func drawText(screen tcell.Screen, x, y int, style tcell.Style, text string) {
-	for i, ch := range text {
-		screen.SetContent(x+i, y, ch, nil, style)
+func fileIcon(name string) (string, tcell.Color) {
+	ext := ""
+	if idx := strings.LastIndex(name, "."); idx != -1 {
+		ext = strings.ToLower(name[idx:])
+	}
+	switch ext {
+	case ".go":
+		return "go", colBlue
+	case ".java":
+		return "jv", colYellow
+	case ".py":
+		return "py", colGreen
+	case ".js":
+		return "js", colYellow
+	case ".ts":
+		return "ts", colBlue
+	case ".rs":
+		return "rs", colRed
+	case ".rb":
+		return "rb", colRed
+	case ".c", ".cpp":
+		return "c+", colIndigo
+	case ".md":
+		return "md", colTextMuted
+	case ".json":
+		return "{}", colTextMuted
+	case ".yaml", ".yml":
+		return "ym", colTextMuted
+	case ".sh":
+		return "sh", colGreen
+	case ".html":
+		return "ht", colRed
+	case ".css":
+		return "cs", colPurple
+	default:
+		return " ·", colTextDim
 	}
 }
 
-func drawFill(screen tcell.Screen, x1, y1, x2, y2 int, style tcell.Style) {
+func statusColor(status string) tcell.Color {
+	switch status {
+	case "stable":
+		return colGreen
+	case "deprecated":
+		return colRed
+	default:
+		return colAmberBase
+	}
+}
+
+func draw(screen tcell.Screen, x, y int, st tcell.Style, text string) {
+	for i, ch := range text {
+		screen.SetContent(x+i, y, ch, nil, st)
+	}
+}
+
+func drawColor(screen tcell.Screen, x, y int, bg tcell.Color, fg tcell.Color, text string) {
+	st := tcell.StyleDefault.Background(bg).Foreground(fg)
+	for i, ch := range text {
+		screen.SetContent(x+i, y, ch, nil, st)
+	}
+}
+
+func fill(screen tcell.Screen, x1, y1, x2, y2 int, st tcell.Style) {
 	for y := y1; y <= y2; y++ {
 		for x := x1; x <= x2; x++ {
-			screen.SetContent(x, y, ' ', nil, style)
+			screen.SetContent(x, y, ' ', nil, st)
 		}
 	}
 }
 
-func renderHeader(screen tcell.Screen, grim *core.Grimoire, width int) {
-	drawFill(screen, 0, 0, width, 0, styleHeader)
-	drawFill(screen, 0, 1, width, 1, styleHeader)
+func drawBox(screen tcell.Screen, x1, y1, x2, y2 int, st tcell.Style) {
+	for x := x1 + 1; x < x2; x++ {
+		screen.SetContent(x, y1, '─', nil, st)
+		screen.SetContent(x, y2, '─', nil, st)
+	}
+	for y := y1 + 1; y < y2; y++ {
+		screen.SetContent(x1, y, '│', nil, st)
+		screen.SetContent(x2, y, '│', nil, st)
+	}
+	screen.SetContent(x1, y1, '┌', nil, st)
+	screen.SetContent(x2, y1, '┐', nil, st)
+	screen.SetContent(x1, y2, '└', nil, st)
+	screen.SetContent(x2, y2, '┘', nil, st)
+}
 
-	x := 1
-	drawText(screen, x, 0, styleAccent.Bold(true), "GRIMOIRE")
-	x += 9
-	drawText(screen, x, 0, styleDim, "|")
-	x += 2
-	drawText(screen, x, 0, styleGreen, "⎇ "+grim.Meta.Branch)
-	x += len("⎇ "+grim.Meta.Branch) + 2
-	drawText(screen, x, 0, styleDim, "|")
-	x += 2
+func drawHLine(screen tcell.Screen, x1, x2, y int, st tcell.Style) {
+	screen.SetContent(x1, y, '├', nil, st)
+	for x := x1 + 1; x < x2; x++ {
+		screen.SetContent(x, y, '─', nil, st)
+	}
+	screen.SetContent(x2, y, '┤', nil, st)
+}
+
+func drawVLine(screen tcell.Screen, x, y1, y2 int, st tcell.Style) {
+	for y := y1; y <= y2; y++ {
+		screen.SetContent(x, y, '│', nil, st)
+	}
+}
+
+func renderHeader(screen tcell.Screen, grim *core.Grimoire, w, h int) {
+	fill(screen, 1, 1, w-2, 3, stSurface)
 
 	repo := grim.Meta.Repository
 	repo = strings.TrimPrefix(repo, "https://github.com/")
 	repo = strings.TrimPrefix(repo, "git@github.com:")
-	drawText(screen, x, 0, styleMuted, repo)
-	x += len(repo) + 2
-	drawText(screen, x, 0, styleDim, "|")
-	x += 2
-	drawText(screen, x, 0, styleAccent, "↑ "+grim.Meta.LastCommit)
-	x += len("↑ "+grim.Meta.LastCommit) + 1
-	drawText(screen, x, 0, styleDim, "· "+grim.Meta.LastCommitDate[:10])
+	repo = strings.TrimSuffix(repo, ".git")
 
-	drawText(screen, 1, 1, styleDim, "» ")
-	drawText(screen, 3, 1, styleMuted, grim.Meta.LastCommitMessage)
+	row1 := fmt.Sprintf(" ⎇ %s  │  %s  │  Commit ↑ %s · %s ",
+		grim.Meta.Branch,
+		repo,
+		grim.Meta.LastCommit,
+		grim.Meta.LastCommitDate[:10],
+	)
+
+	x := 2
+	drawColor(screen, x, 1, colSurface, colAmber, " GRIMOIRE ")
+	x += 10
+	drawColor(screen, x, 1, colSurface, colBorderDim, "─")
+	x++
+	drawColor(screen, x, 1, colSurface, colTextMuted, row1)
+
+	drawHLine(screen, 0, w-1, 2, stBorder)
+
+	msg := fmt.Sprintf("  »  %s", grim.Meta.LastCommitMessage)
+	drawColor(screen, 1, 3, colSurface, colTextDim, strings.Repeat(" ", w-2))
+	drawColor(screen, 1, 3, colSurface, colTextMuted, msg)
 }
 
-func renderSidebar(screen tcell.Screen, state *AppState, startY int, height int) {
-	sidebarWidth := 22
-	drawFill(screen, 0, startY, sidebarWidth, startY+height, styleSidebar)
+func renderSidebar(screen tcell.Screen, state *AppState, x1, y1, x2, y2 int) {
+	fill(screen, x1, y1, x2, y2, stDefault)
 
-	y := startY
-	drawText(screen, 1, y, styleDim, "files")
-	y++
+	draw(screen, x1+2, y1+1, stDim, "files")
+	draw(screen, x1+2, y1+2, stDim, strings.Repeat("─", x2-x1-3))
 
+	y := y1 + 3
 	for i, node := range state.Tree {
-		if y >= startY+height {
+		if y > y2-1 {
 			break
 		}
 		indent := node.Depth * 2
-		prefix := strings.Repeat(" ", indent)
 
 		if node.IsFolder {
 			arrow := "▸ "
 			if node.Expanded {
 				arrow = "▾ "
 			}
-			folderStyle := styleDim
+			fg := colTextMuted
 			if node.Expanded {
-				folderStyle = styleGreen
+				fg = colAmberBase
 			}
-			drawText(screen, 1+indent, y, folderStyle, arrow+node.Name+"/")
+			fill(screen, x1, y, x2-1, y, stDefault)
+			drawColor(screen, x1+2+indent, y, colBackground, fg, arrow+node.Name+"/")
 		} else {
-			dot := "·"
-			dotStyle := styleDim
+			isFocused := i == state.ActiveIndex
+			bg := colBackground
+			if isFocused {
+				bg = colSurface
+				fill(screen, x1, y, x2-1, y, stActive)
+				drawColor(screen, x1, y, bg, colAmber, "▌")
+			}
+
+			icon, iconColor := fileIcon(node.Name)
+			dotColor := colTextDim
 			if node.Doc != nil {
-				switch node.Doc.Status {
-				case "stable":
-					dotStyle = styleGreen
-				case "deprecated":
-					dotStyle = styleRed
-				default:
-					dotStyle = styleAccent
-				}
+				dotColor = statusColor(node.Doc.Status)
 			}
-			_ = prefix
-			rowStyle := styleSidebar.Foreground(tcell.NewRGBColor(85, 85, 96))
-			if i == state.ActiveIndex {
-				rowStyle = styleActive
-				drawFill(screen, 0, y, sidebarWidth, y, styleActive)
-				drawText(screen, 0, y, styleAccent, "▌")
+
+			drawColor(screen, x1+2+indent, y, bg, iconColor, icon)
+			drawColor(screen, x1+4+indent, y, bg, colTextDim, " ")
+			drawColor(screen, x1+5+indent, y, bg, dotColor, "● ")
+
+			nameStyle := colTextMuted
+			if isFocused {
+				nameStyle = colAmber
 			}
-			drawText(screen, 1+indent, y, dotStyle, dot)
-			drawText(screen, 3+indent, y, rowStyle, node.Name)
+			maxLen := x2 - x1 - 8 - indent
+			name := node.Name
+			if len(name) > maxLen {
+				name = name[:maxLen-1] + "…"
+			}
+			drawColor(screen, x1+7+indent, y, bg, nameStyle, name)
 		}
 		y++
 	}
 }
 
-func renderEditor(screen tcell.Screen, state *AppState, startX, startY, width, height int) {
-	drawFill(screen, startX, startY, startX+width, startY+height, styleDefault)
+func renderEditor(screen tcell.Screen, state *AppState, x1, y1, x2, y2 int) {
+	fill(screen, x1, y1, x2, y2, stDefault)
 
 	if state.ActiveDoc == nil {
-		drawText(screen, startX+2, startY+2, styleDim, "select a file from the sidebar")
+		draw(screen, x1+3, y1+2, stDim, "select a file from the sidebar")
 		return
 	}
 
 	doc := state.ActiveDoc
-	y := startY + 1
+	y := y1 + 1
+	maxW := x2 - x1 - 4
 
-	drawText(screen, startX+2, y, styleAccent.Bold(true), doc.LinkedFile)
+	draw(screen, x1+3, y, stAmber.Bold(true), doc.LinkedFile)
 	y++
-	drawText(screen, startX+2, y, styleDim, fmt.Sprintf("author %s · %s", doc.Author, doc.UpdatedAt))
-	y += 2
-
-	drawText(screen, startX+2, y, styleDim, "DESCRIPTION")
+	draw(screen, x1+3, y, stDim, fmt.Sprintf("author %s · %s", doc.Author, doc.UpdatedAt))
 	y++
-	desc := doc.Description
-	if desc == "" {
-		desc = "no description yet..."
-		drawText(screen, startX+2, y, styleDim, desc)
-	} else {
-		wrapped := wrapText(desc, width-6)
-		for _, line := range wrapped {
-			drawText(screen, startX+2, y, styleDefault, line)
-			y++
-		}
-		y--
-	}
-	y += 2
+	draw(screen, x1+3, y, stDim, strings.Repeat("─", maxW))
+	y++
 
-	if len(doc.Functions) > 0 {
-		drawText(screen, startX+2, y, styleDim, "FUNCTIONS")
+	draw(screen, x1+3, y, stDim, "DESCRIPTION")
+	y++
+	if doc.Description == "" {
+		draw(screen, x1+3, y, stDim, "no description yet...")
 		y++
-		for _, fn := range doc.Functions {
-			if y >= startY+height {
+	} else {
+		for _, line := range wrapText(doc.Description, maxW) {
+			if y > y2-2 {
 				break
 			}
-			drawText(screen, startX+2, y, styleGreen, fn.Name)
-			drawText(screen, startX+2+len(fn.Name)+1, y, styleDim, fn.Signature[len(fn.Name):])
+			draw(screen, x1+3, y, stDefault, line)
+			y++
+		}
+	}
+	y++
+
+	if len(doc.Functions) > 0 {
+		draw(screen, x1+3, y, stDim, strings.Repeat("─", maxW))
+		y++
+		draw(screen, x1+3, y, stDim, "FUNCTIONS")
+		y++
+		for _, fn := range doc.Functions {
+			if y > y2-2 {
+				break
+			}
+			_, iconColor := fileIcon(doc.LinkedFile)
+			isPrivate := len(fn.Name) > 0 && fn.Name[0] >= 'a' && fn.Name[0] <= 'z'
+			fnColor := iconColor
+			if isPrivate {
+				fnColor = colTextMuted
+			}
+			sigDisplay := fn.Signature
+			if len(sigDisplay) > maxW-len(fn.Name)-2 {
+				sigDisplay = sigDisplay[:maxW-len(fn.Name)-3] + "…"
+			}
+			drawColor(screen, x1+3, y, colBackground, fnColor, fn.Name)
+			draw(screen, x1+3+len(fn.Name), y, stDim, "  "+sigDisplay)
 			y++
 			if fn.Notes != "" {
-				drawText(screen, startX+4, y, styleMuted, "» "+fn.Notes)
+				draw(screen, x1+5, y, stMuted, "» "+fn.Notes)
+				y++
+			}
+			if fn.Author != "" {
+				draw(screen, x1+5, y, stDim, fn.Author+" · "+fn.UpdatedAt)
 				y++
 			}
 		}
 	}
 }
 
-func renderMenu(screen tcell.Screen, selected int) {
-	w, h := screen.Size()
-	cx := w / 2
-	cy := h / 2
+func renderFooter(screen tcell.Screen, state *AppState, w, h int) {
+	fill(screen, 1, h-2, w-2, h-2, stSurface)
 
-	drawText(screen, cx-4, cy-3, styleAccent.Bold(true), "GRIMOIRE")
-
-	for i, item := range menuItems {
-		y := cy - 1 + i
-		style := styleDim
-		prefix := "  "
-		if i == selected {
-			style = styleAccent
-			prefix = "› "
-		}
-		drawText(screen, cx-4, y, style, prefix+item.command)
-		drawText(screen, cx+8, y, styleDim, item.description)
+	x := 3
+	type bind struct {
+		key  string
+		desc string
 	}
-
-	drawText(screen, cx-4, cy+4, styleDim, "↑↓ navigate   Enter select   Q quit")
-}
-
-func renderFooter(screen tcell.Screen, state *AppState, y, width int) {
-	drawFill(screen, 0, y, width, y, styleFooter)
-	x := 1
-	binds := []string{"Tab switch pane", "↑↓ navigate", "Enter expand", "Ctrl+S save", "Q quit"}
+	binds := []bind{
+		{"Tab", "switch pane"},
+		{"↑↓", "navigate"},
+		{"Enter", "expand"},
+		{"Ctrl+S", "save"},
+		{"Q", "quit"},
+	}
 	if state.ReadOnly {
-		binds = []string{"↑↓ navigate", "Enter expand", "Q quit"}
+		binds = []bind{
+			{"↑↓", "navigate"},
+			{"Enter", "expand"},
+			{"Q", "quit"},
+		}
 	}
 	for _, b := range binds {
-		drawText(screen, x, y, styleFooter, b)
-		x += len(b) + 3
+		drawColor(screen, x, h-2, colSurface, colAmberBase, b.key)
+		x += len(b.key) + 1
+		drawColor(screen, x, h-2, colSurface, colTextDim, b.desc)
+		x += len(b.desc) + 3
 	}
+
 	if state.Dirty {
-		dirty := "● unsaved"
-		drawText(screen, width-len(dirty)-1, y, styleAccent, dirty)
+		msg := "● unsaved"
+		drawColor(screen, w-len(msg)-2, h-2, colSurface, colAmber, msg)
 	}
 	if state.ReadOnly {
-		drawText(screen, width-10, y, styleDim, "read-only")
+		msg := "read-only"
+		drawColor(screen, w-len(msg)-2, h-2, colSurface, colTextDim, msg)
 	}
+}
+
+func renderMenu(screen tcell.Screen, selected int) {
+	w, h := screen.Size()
+	fill(screen, 0, 0, w-1, h-1, stDefault)
+	drawBox(screen, 0, 0, w-1, h-1, stBorder)
+
+	cx := w/2 - 4
+	cy := h/2 - 3
+
+	draw(screen, cx, cy, stAmber.Bold(true), "GRIMOIRE")
+	draw(screen, cx, cy+1, stDim, strings.Repeat("─", 36))
+
+	for i, item := range menuItems {
+		y := cy + 3 + i
+		if i == selected {
+			drawColor(screen, cx-2, y, colBackground, colAmber, "›")
+			drawColor(screen, cx, y, colBackground, colAmber, item.command)
+		} else {
+			draw(screen, cx-2, y, stDim, " ")
+			draw(screen, cx, y, stMuted, item.command)
+		}
+		draw(screen, cx+10, y, stDim, item.description)
+	}
+
+	draw(screen, cx, cy+8, stDim, "↑↓ navigate   Enter select   Q quit")
+}
+
+func render(screen tcell.Screen, state *AppState) {
+	w, h := screen.Size()
+
+	fill(screen, 0, 0, w-1, h-1, stDefault)
+	drawBox(screen, 0, 0, w-1, h-1, stBorder)
+
+	renderHeader(screen, state.Grimoire, w, h)
+
+	sidebarX2 := 24
+	bodyY1 := 4
+	bodyY2 := h - 3
+
+	drawHLine(screen, 0, w-1, bodyY1, stBorder)
+	drawVLine(screen, sidebarX2, bodyY1, bodyY2, stBorder)
+	screen.SetContent(sidebarX2, bodyY1, '┬', nil, stBorder)
+	screen.SetContent(0, bodyY1, '├', nil, stBorder)
+	screen.SetContent(w-1, bodyY1, '┤', nil, stBorder)
+
+	drawHLine(screen, 0, w-1, bodyY2, stBorder)
+	screen.SetContent(0, bodyY2, '├', nil, stBorder)
+	screen.SetContent(w-1, bodyY2, '┤', nil, stBorder)
+	screen.SetContent(sidebarX2, bodyY2, '┴', nil, stBorder)
+
+	renderSidebar(screen, state, 1, bodyY1, sidebarX2-1, bodyY2)
+	renderEditor(screen, state, sidebarX2+1, bodyY1, w-2, bodyY2)
+	renderFooter(screen, state, w, h)
 }
 
 func wrapText(text string, width int) []string {
@@ -233,19 +408,4 @@ func wrapText(text string, width int) []string {
 		lines = append(lines, current)
 	}
 	return lines
-}
-
-func render(screen tcell.Screen, state *AppState) {
-	width, height := screen.Size()
-	sidebarWidth := 22
-
-	renderHeader(screen, state.Grimoire, width)
-	renderSidebar(screen, state, 2, height-4)
-	renderEditor(screen, state, sidebarWidth+1, 2, width-sidebarWidth-1, height-4)
-	renderFooter(screen, state, height-1, width)
-
-	screen.SetContent(sidebarWidth, 2, '│', nil, styleDim)
-	for y := 3; y < height-1; y++ {
-		screen.SetContent(sidebarWidth, y, '│', nil, styleDim)
-	}
 }
