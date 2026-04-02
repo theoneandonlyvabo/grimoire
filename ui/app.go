@@ -39,13 +39,9 @@ func Start(grimoire *core.Grimoire, readOnly bool) error {
 	defer screen.Fini()
 
 	state := &AppState{
-		Grimoire:    grimoire,
-		Tree:        buildTree(grimoire),
-		ActiveIndex: 0,
-		ActivePane:  0,
-		ActiveField: 0,
-		ReadOnly:    readOnly,
-		Dirty:       false,
+		Grimoire: grimoire,
+		Tree:     buildTree(grimoire),
+		ReadOnly: readOnly,
 	}
 
 	state.ActiveDoc = findReadmeOrFirst(state)
@@ -65,11 +61,6 @@ func Start(grimoire *core.Grimoire, readOnly bool) error {
 			}
 		}
 	}
-}
-
-type folderNode struct {
-	name     string
-	children []string
 }
 
 func buildTree(grimoire *core.Grimoire) []TreeNode {

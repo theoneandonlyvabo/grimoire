@@ -47,6 +47,11 @@ func RunCarve() error {
 	if err != nil {
 		return fmt.Errorf("no grimoire found, run 'grimoire forge' first")
 	}
+
+	if err := refreshMetadata(grimoire); err == nil {
+		core.Save(grimoire)
+	}
+
 	return Start(grimoire, false)
 }
 
@@ -55,5 +60,31 @@ func RunCast() error {
 	if err != nil {
 		return fmt.Errorf("no grimoire found, run 'grimoire forge' first")
 	}
+
+	if err := refreshMetadata(grimoire); err == nil {
+		core.Save(grimoire)
+	}
+
 	return Start(grimoire, true)
+}
+
+func refreshMetadata(grimoire *core.Grimoire) error {
+	meta, err := core.GetMetadata()
+	if err != nil {
+		return err
+	}
+	grimoire.Meta = meta
+	return nil
+}
+
+func runFromMenu(command string) error {
+	switch command {
+	case "forge":
+		return RunForge()
+	case "carve":
+		return RunCarve()
+	case "cast":
+		return RunCast()
+	}
+	return nil
 }

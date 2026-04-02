@@ -56,10 +56,10 @@ func handleKey(screen tcell.Screen, state *AppState, ev *tcell.EventKey) bool {
 			node := state.Tree[state.ActiveIndex]
 			if node.IsFolder {
 				state.Tree[state.ActiveIndex].Expanded = !state.Tree[state.ActiveIndex].Expanded
-				newTree := rebuildVisibleTree(state)
-				state.Tree = newTree
+				state.Tree = rebuildVisibleTree(state)
 			} else {
 				updateActiveDoc(state)
+				state.ActivePane = 1
 			}
 		}
 
@@ -88,8 +88,8 @@ func confirmQuit(screen tcell.Screen, state *AppState) bool {
 	msg := "  unsaved changes. quit anyway? (y/n)  "
 	x := w/2 - len(msg)/2
 	y := h / 2
-	fill(screen, x-1, y-1, x+len(msg), y+1, stSurface)
-	drawBox(screen, x-2, y-2, x+len(msg)+1, y+2, stBorder)
+	fill(screen, x-2, y-2, x+len(msg)+2, y+2, stDefault)
+	drawBox(screen, x-2, y-2, x+len(msg)+2, y+2, stBorder)
 	draw(screen, x, y, stDefault, msg)
 	screen.Show()
 

@@ -59,15 +59,3 @@ func StartMenu() error {
 		}
 	}
 }
-
-func runFromMenu(command string) error {
-	switch command {
-	case "forge":
-		return RunForge()
-	case "carve":
-		return RunCarve()
-	case "cast":
-		return RunCast()
-	}
-	return nil
-}

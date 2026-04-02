@@ -3,22 +3,49 @@
     "version": "1.0.0",
     "repository": "https://github.com/theoneandonlyvabo/grimoire.git",
     "branch": "main",
-    "commits": 5,
-    "last_commit": "958df93",
-    "last_commit_message": "Programming Language Parser, Function Notes Maker",
-    "last_commit_date": "2026-04-02 18:49:29 +0700",
+    "commits": 12,
+    "last_commit": "7ae1472",
+    "last_commit_message": "Merge branch 'main' of https://github.com/theoneandonlyvabo/grimoire",
+    "last_commit_date": "2026-04-02 22:56:25 +0700",
     "contributors": [
       "Airel Adrivano"
     ]
   },
   "documents": [
     {
+      "id": ".gitignore",
+      "linked_file": ".gitignore",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-02 23:10",
+      "functions": null
+    },
+    {
+      "id": ".grim",
+      "linked_file": ".grim",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-02 23:10",
+      "functions": null
+    },
+    {
+      "id": "README.md",
+      "linked_file": "README.md",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-02 23:10",
+      "functions": null
+    },
+    {
       "id": "cmd\\carve.go",
       "linked_file": "cmd\\carve.go",
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 18:52",
+      "updated_at": "2026-04-02 23:10",
       "functions": [
         {
           "name": "init",
@@ -35,7 +62,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 18:52",
+      "updated_at": "2026-04-02 23:10",
       "functions": [
         {
           "name": "init",
@@ -52,7 +79,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 18:52",
+      "updated_at": "2026-04-02 23:10",
       "functions": [
         {
           "name": "init",
@@ -69,7 +96,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 18:52",
+      "updated_at": "2026-04-02 23:10",
       "functions": [
         {
           "name": "Execute",
@@ -86,7 +113,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 18:52",
+      "updated_at": "2026-04-02 23:10",
       "functions": [
         {
           "name": "runGit",
@@ -131,7 +158,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 18:52",
+      "updated_at": "2026-04-02 23:10",
       "functions": [
         {
           "name": "ParseFunctions",
@@ -183,7 +210,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 18:52",
+      "updated_at": "2026-04-02 23:10",
       "functions": [
         {
           "name": "ScanFiles",
@@ -200,7 +227,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 18:52",
+      "updated_at": "2026-04-02 23:10",
       "functions": [
         {
           "name": "NewDoc",
@@ -231,7 +258,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 18:52",
+      "updated_at": "2026-04-02 23:10",
       "functions": null
     },
     {
@@ -240,7 +267,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 18:52",
+      "updated_at": "2026-04-02 23:10",
       "functions": null
     },
     {
@@ -249,7 +276,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 18:52",
+      "updated_at": "2026-04-02 23:10",
       "functions": [
         {
           "name": "main",
@@ -266,7 +293,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 18:52",
+      "updated_at": "2026-04-02 23:10",
       "functions": [
         {
           "name": "RunForge",
@@ -288,6 +315,20 @@
           "notes": "",
           "author": "",
           "updated_at": ""
+        },
+        {
+          "name": "refreshMetadata",
+          "signature": "func refreshMetadata(grimoire *core.Grimoire) error",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "runFromMenu",
+          "signature": "func runFromMenu(command string) error",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
         }
       ]
     },
@@ -297,7 +338,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 18:52",
+      "updated_at": "2026-04-02 23:10",
       "functions": [
         {
           "name": "Start",
@@ -314,15 +355,29 @@
           "updated_at": ""
         },
         {
-          "name": "splitPath",
-          "signature": "func splitPath(path string) []string",
+          "name": "rebuildVisibleTree",
+          "signature": "func rebuildVisibleTree(state *AppState) []TreeNode",
           "notes": "",
           "author": "",
           "updated_at": ""
         },
         {
-          "name": "findFirstDoc",
-          "signature": "func findFirstDoc(state *AppState) *core.Doc",
+          "name": "findDoc",
+          "signature": "func findDoc(grimoire *core.Grimoire, path string) *core.Doc",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "findReadmeOrFirst",
+          "signature": "func findReadmeOrFirst(state *AppState) *core.Doc",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "splitPath",
+          "signature": "func splitPath(path string) []string",
           "notes": "",
           "author": "",
           "updated_at": ""
@@ -335,7 +390,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 18:52",
+      "updated_at": "2026-04-02 23:10",
       "functions": [
         {
           "name": "handleKey",
@@ -357,13 +412,6 @@
           "notes": "",
           "author": "",
           "updated_at": ""
-        },
-        {
-          "name": "rebuildVisibleTree",
-          "signature": "func rebuildVisibleTree(state *AppState) []TreeNode",
-          "notes": "",
-          "author": "",
-          "updated_at": ""
         }
       ]
     },
@@ -373,18 +421,11 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 18:52",
+      "updated_at": "2026-04-02 23:10",
       "functions": [
         {
           "name": "StartMenu",
           "signature": "func StartMenu() error",
-          "notes": "",
-          "author": "",
-          "updated_at": ""
-        },
-        {
-          "name": "runFromMenu",
-          "signature": "func runFromMenu(command string) error",
           "notes": "",
           "author": "",
           "updated_at": ""
@@ -397,39 +438,88 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 18:52",
+      "updated_at": "2026-04-02 23:10",
       "functions": [
         {
-          "name": "drawText",
-          "signature": "func drawText(screen tcell.Screen, x, y int, style tcell.Style, text string)",
+          "name": "statusColor",
+          "signature": "func statusColor(status string) tcell.Color",
           "notes": "",
           "author": "",
           "updated_at": ""
         },
         {
-          "name": "drawFill",
-          "signature": "func drawFill(screen tcell.Screen, x1, y1, x2, y2 int, style tcell.Style)",
+          "name": "draw",
+          "signature": "func draw(screen tcell.Screen, x, y int, st tcell.Style, text string)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "drawCol",
+          "signature": "func drawCol(screen tcell.Screen, x, y int, bg, fg tcell.Color, text string)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "fill",
+          "signature": "func fill(screen tcell.Screen, x1, y1, x2, y2 int, st tcell.Style)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "drawBox",
+          "signature": "func drawBox(screen tcell.Screen, x1, y1, x2, y2 int, st tcell.Style)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "hline",
+          "signature": "func hline(screen tcell.Screen, x1, x2, y int, leftCap, rightCap rune, st tcell.Style)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "vline",
+          "signature": "func vline(screen tcell.Screen, x, y1, y2 int, st tcell.Style)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "sep",
+          "signature": "func sep(screen tcell.Screen, x1, x2, y int, st tcell.Style)",
           "notes": "",
           "author": "",
           "updated_at": ""
         },
         {
           "name": "renderHeader",
-          "signature": "func renderHeader(screen tcell.Screen, grim *core.Grimoire, width int)",
+          "signature": "func renderHeader(screen tcell.Screen, grim *core.Grimoire, w int)",
           "notes": "",
           "author": "",
           "updated_at": ""
         },
         {
           "name": "renderSidebar",
-          "signature": "func renderSidebar(screen tcell.Screen, state *AppState, startY int, height int)",
+          "signature": "func renderSidebar(screen tcell.Screen, state *AppState, x1, y1, x2, y2 int)",
           "notes": "",
           "author": "",
           "updated_at": ""
         },
         {
           "name": "renderEditor",
-          "signature": "func renderEditor(screen tcell.Screen, state *AppState, startX, startY, width, height int)",
+          "signature": "func renderEditor(screen tcell.Screen, state *AppState, x1, y1, x2, y2 int)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "renderFooter",
+          "signature": "func renderFooter(screen tcell.Screen, state *AppState, w, h int)",
           "notes": "",
           "author": "",
           "updated_at": ""
@@ -442,8 +532,8 @@
           "updated_at": ""
         },
         {
-          "name": "renderFooter",
-          "signature": "func renderFooter(screen tcell.Screen, state *AppState, y, width int)",
+          "name": "render",
+          "signature": "func render(screen tcell.Screen, state *AppState)",
           "notes": "",
           "author": "",
           "updated_at": ""
@@ -451,13 +541,6 @@
         {
           "name": "wrapText",
           "signature": "func wrapText(text string, width int) []string",
-          "notes": "",
-          "author": "",
-          "updated_at": ""
-        },
-        {
-          "name": "render",
-          "signature": "func render(screen tcell.Screen, state *AppState)",
           "notes": "",
           "author": "",
           "updated_at": ""
