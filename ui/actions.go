@@ -8,17 +8,17 @@ import (
 
 func RunForge() error {
 	if !core.IsGitRepo() {
-		return fmt.Errorf("not a git repository, run 'git init' first")
+		return fmt.Errorf("Not a git repository, run 'git init' first")
 	}
 
 	metadata, err := core.GetMetadata()
 	if err != nil {
-		return fmt.Errorf("failed to read git metadata: %w", err)
+		return fmt.Errorf("Failed to read git metadata: %w", err)
 	}
 
 	files, err := core.ScanFiles(".")
 	if err != nil {
-		return fmt.Errorf("failed to scan project files: %w", err)
+		return fmt.Errorf("Failed to scan project files: %w", err)
 	}
 
 	author := core.GetUserName()
@@ -35,7 +35,7 @@ func RunForge() error {
 	}
 
 	if err := core.Save(grimoire); err != nil {
-		return fmt.Errorf("failed to forge grimoire: %w", err)
+		return fmt.Errorf("Failed to forge grimoire: %w", err)
 	}
 
 	fmt.Println("Grimoire forged.")
@@ -45,7 +45,7 @@ func RunForge() error {
 func RunCarve() error {
 	grimoire, err := core.Load()
 	if err != nil {
-		return fmt.Errorf("no grimoire found, run 'grimoire forge' first")
+		return fmt.Errorf("No grimoire found, run 'grimoire forge' first")
 	}
 
 	if err := refreshMetadata(grimoire); err == nil {
@@ -58,7 +58,7 @@ func RunCarve() error {
 func RunCast() error {
 	grimoire, err := core.Load()
 	if err != nil {
-		return fmt.Errorf("no grimoire found, run 'grimoire forge' first")
+		return fmt.Errorf("No grimoire found, run 'grimoire forge' first")
 	}
 
 	if err := refreshMetadata(grimoire); err == nil {
@@ -79,11 +79,11 @@ func refreshMetadata(grimoire *core.Grimoire) error {
 
 func runFromMenu(command string) error {
 	switch command {
-	case "forge":
+	case "Forge":
 		return RunForge()
-	case "carve":
+	case "Carve":
 		return RunCarve()
-	case "cast":
+	case "Cast":
 		return RunCast()
 	}
 	return nil

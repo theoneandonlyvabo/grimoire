@@ -10,9 +10,9 @@ type menuItem struct {
 }
 
 var menuItems = []menuItem{
-	{"forge", "initialize grimoire in this project"},
-	{"carve", "write technical notes"},
-	{"cast", "read grimoire"},
+	{"Forge", "Initialize grimoire in this project"},
+	{"Carve", "Write technical notes"},
+	{"Cast", "Read grimoire"},
 }
 
 func StartMenu() error {
