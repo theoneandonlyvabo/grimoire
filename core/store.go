@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-const GrimoireFile = ".grim"
+const GrimoireFile = ".grimoire"
 
 type Grimoire struct {
 	Meta     MetaData `json:"meta"`
