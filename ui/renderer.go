@@ -32,9 +32,9 @@ var (
 
 func statusColor(status string) tcell.Color {
 	switch status {
-	case "stable":
+	case "Stable":
 		return colGreen
-	case "deprecated":
+	case "Deprecated":
 		return colRed
 	default:
 		return colAmberBase
@@ -123,7 +123,7 @@ func renderHeader(screen tcell.Screen, grim *core.Grimoire, w int) {
 	x += len(repo) + 2
 	drawCol(screen, x, 1, colSurface, colTextDim, "│")
 	x += 2
-	commitStr := fmt.Sprintf("Commit ↑ %s · %s", grim.Meta.LastCommit, date)
+	commitStr := fmt.Sprintf("Commit %s · %s", grim.Meta.LastCommit, date)
 	drawCol(screen, x, 1, colSurface, colAmberBase, commitStr)
 
 	hline(screen, 0, w-1, 2, '├', '┤', stBorder)
@@ -137,7 +137,7 @@ func renderHeader(screen tcell.Screen, grim *core.Grimoire, w int) {
 func renderSidebar(screen tcell.Screen, state *AppState, x1, y1, x2, y2 int) {
 	fill(screen, x1, y1, x2, y2, stDefault)
 
-	draw(screen, x1+2, y1+1, stDim, "files")
+	draw(screen, x1+2, y1+1, stDim, "Files")
 	sep(screen, x1+2, x2-1, y1+2, stDim)
 
 	y := y1 + 3
@@ -192,7 +192,7 @@ func renderEditor(screen tcell.Screen, state *AppState, x1, y1, x2, y2 int) {
 	fill(screen, x1, y1, x2, y2, stDefault)
 
 	if state.ActiveDoc == nil {
-		draw(screen, x1+3, y1+3, stDim, "select a file from the sidebar")
+		draw(screen, x1+3, y1+3, stDim, "Select a file from the sidebar")
 		return
 	}
 
@@ -213,7 +213,7 @@ func renderEditor(screen tcell.Screen, state *AppState, x1, y1, x2, y2 int) {
 
 	desc := doc.Description
 	if desc == "" {
-		draw(screen, x1+3, y, stDim, "no description yet...")
+		draw(screen, x1+3, y, stDim, "No description yet...")
 		y++
 	} else {
 		for _, line := range wrapText(desc, maxW) {
@@ -265,17 +265,17 @@ func renderFooter(screen tcell.Screen, state *AppState, w, h int) {
 
 	type bind struct{ key, desc string }
 	binds := []bind{
-		{"Tab", "switch pane"},
-		{"↑↓", "navigate"},
-		{"Enter", "expand"},
-		{"Ctrl+S", "save"},
-		{"Q", "quit"},
+		{"Tab", "Switch Pane"},
+		{"↑↓", "Navigate"},
+		{"Enter", "Expand"},
+		{"Ctrl+S", "Save"},
+		{"Q", "Quit"},
 	}
 	if state.ReadOnly {
 		binds = []bind{
-			{"↑↓", "navigate"},
-			{"Enter", "open"},
-			{"Q", "quit"},
+			{"↑↓", "Navigate"},
+			{"Enter", "Open"},
+			{"Q", "Quit"},
 		}
 	}
 
@@ -288,11 +288,11 @@ func renderFooter(screen tcell.Screen, state *AppState, w, h int) {
 	}
 
 	if state.Dirty {
-		msg := "● unsaved"
+		msg := "● Unsaved"
 		drawCol(screen, w-len(msg)-2, h-2, colSurface, colAmber, msg)
 	}
 	if state.ReadOnly {
-		msg := "read-only"
+		msg := "Read-Only"
 		drawCol(screen, w-len(msg)-2, h-2, colSurface, colTextDim, msg)
 	}
 }
@@ -319,7 +319,7 @@ func renderMenu(screen tcell.Screen, selected int) {
 		draw(screen, cx+12, y, stDim, item.description)
 	}
 
-	draw(screen, cx, cy+8, stDim, "↑↓ navigate   Enter select   Q quit")
+	draw(screen, cx, cy+8, stDim, "↑↓ Navigate   Enter Select   Q Quit")
 }
 
 func render(screen tcell.Screen, state *AppState) {
