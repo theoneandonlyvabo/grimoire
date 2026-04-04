@@ -1,33 +1,13 @@
 {
-  "meta": {
-    "version": "1.0.0",
-    "repository": "https://github.com/theoneandonlyvabo/grimoire.git",
-    "branch": "main",
-    "commits": 15,
-    "last_commit": "04bcd1a",
-    "last_commit_message": ".grimoire File Test",
-    "last_commit_date": "2026-04-02 23:34:10 +0700",
-    "contributors": [
-      "Airel Adrivano"
-    ]
-  },
+  "version": "1.0.0",
   "documents": [
-    {
-      "id": ".gitignore",
-      "linked_file": ".gitignore",
-      "description": "",
-      "status": "wip",
-      "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 23:14",
-      "functions": null
-    },
     {
       "id": "README.md",
       "linked_file": "README.md",
       "description": "",
       "status": "wip",
-      "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 23:14",
+      "author": "unknown",
+      "updated_at": "2026-04-04 23:13",
       "functions": null
     },
     {
@@ -35,8 +15,8 @@
       "linked_file": "cmd\\carve.go",
       "description": "",
       "status": "wip",
-      "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 23:14",
+      "author": "unknown",
+      "updated_at": "2026-04-04 23:13",
       "functions": [
         {
           "name": "init",
@@ -52,8 +32,8 @@
       "linked_file": "cmd\\cast.go",
       "description": "",
       "status": "wip",
-      "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 23:14",
+      "author": "unknown",
+      "updated_at": "2026-04-04 23:13",
       "functions": [
         {
           "name": "init",
@@ -69,8 +49,8 @@
       "linked_file": "cmd\\forge.go",
       "description": "",
       "status": "wip",
-      "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 23:14",
+      "author": "unknown",
+      "updated_at": "2026-04-04 23:13",
       "functions": [
         {
           "name": "init",
@@ -86,8 +66,8 @@
       "linked_file": "cmd\\root.go",
       "description": "",
       "status": "wip",
-      "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 23:14",
+      "author": "unknown",
+      "updated_at": "2026-04-04 23:13",
       "functions": [
         {
           "name": "Execute",
@@ -103,8 +83,8 @@
       "linked_file": "core\\git.go",
       "description": "",
       "status": "wip",
-      "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 23:14",
+      "author": "unknown",
+      "updated_at": "2026-04-04 23:13",
       "functions": [
         {
           "name": "runGit",
@@ -148,8 +128,8 @@
       "linked_file": "core\\parser.go",
       "description": "",
       "status": "wip",
-      "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 23:14",
+      "author": "unknown",
+      "updated_at": "2026-04-04 23:13",
       "functions": [
         {
           "name": "ParseFunctions",
@@ -200,9 +180,16 @@
       "linked_file": "core\\scanner.go",
       "description": "",
       "status": "wip",
-      "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 23:14",
+      "author": "unknown",
+      "updated_at": "2026-04-04 23:13",
       "functions": [
+        {
+          "name": "isReadme",
+          "signature": "func isReadme(name string) bool",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
         {
           "name": "ScanFiles",
           "signature": "func ScanFiles(root string) ([]string, error)",
@@ -217,8 +204,8 @@
       "linked_file": "core\\store.go",
       "description": "",
       "status": "wip",
-      "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 23:14",
+      "author": "unknown",
+      "updated_at": "2026-04-04 23:13",
       "functions": [
         {
           "name": "NewDoc",
@@ -244,30 +231,12 @@
       ]
     },
     {
-      "id": "go.mod",
-      "linked_file": "go.mod",
-      "description": "",
-      "status": "wip",
-      "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 23:14",
-      "functions": null
-    },
-    {
-      "id": "go.sum",
-      "linked_file": "go.sum",
-      "description": "",
-      "status": "wip",
-      "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 23:14",
-      "functions": null
-    },
-    {
       "id": "main.go",
       "linked_file": "main.go",
       "description": "",
       "status": "wip",
-      "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 23:14",
+      "author": "unknown",
+      "updated_at": "2026-04-04 23:13",
       "functions": [
         {
           "name": "main",
@@ -283,8 +252,8 @@
       "linked_file": "ui\\actions.go",
       "description": "",
       "status": "wip",
-      "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 23:14",
+      "author": "unknown",
+      "updated_at": "2026-04-04 23:13",
       "functions": [
         {
           "name": "RunForge",
@@ -308,8 +277,8 @@
           "updated_at": ""
         },
         {
-          "name": "refreshMetadata",
-          "signature": "func refreshMetadata(grimoire *core.Grimoire) error",
+          "name": "syncFiles",
+          "signature": "func syncFiles(grimoire *core.Grimoire)",
           "notes": "",
           "author": "",
           "updated_at": ""
@@ -328,8 +297,8 @@
       "linked_file": "ui\\app.go",
       "description": "",
       "status": "wip",
-      "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 23:14",
+      "author": "unknown",
+      "updated_at": "2026-04-04 23:13",
       "functions": [
         {
           "name": "Start",
@@ -339,8 +308,8 @@
           "updated_at": ""
         },
         {
-          "name": "buildTree",
-          "signature": "func buildTree(grimoire *core.Grimoire) []TreeNode",
+          "name": "buildCollapsedTree",
+          "signature": "func buildCollapsedTree(grimoire *core.Grimoire) []TreeNode",
           "notes": "",
           "author": "",
           "updated_at": ""
@@ -361,7 +330,7 @@
         },
         {
           "name": "findReadmeOrFirst",
-          "signature": "func findReadmeOrFirst(state *AppState) *core.Doc",
+          "signature": "func findReadmeOrFirst(grimoire *core.Grimoire) *core.Doc",
           "notes": "",
           "author": "",
           "updated_at": ""
@@ -380,8 +349,8 @@
       "linked_file": "ui\\input.go",
       "description": "",
       "status": "wip",
-      "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 23:14",
+      "author": "unknown",
+      "updated_at": "2026-04-04 23:13",
       "functions": [
         {
           "name": "handleKey",
@@ -411,8 +380,8 @@
       "linked_file": "ui\\menu.go",
       "description": "",
       "status": "wip",
-      "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 23:14",
+      "author": "unknown",
+      "updated_at": "2026-04-04 23:13",
       "functions": [
         {
           "name": "StartMenu",
@@ -428,8 +397,8 @@
       "linked_file": "ui\\renderer.go",
       "description": "",
       "status": "wip",
-      "author": "Airel Adrivano",
-      "updated_at": "2026-04-02 23:14",
+      "author": "unknown",
+      "updated_at": "2026-04-04 23:13",
       "functions": [
         {
           "name": "statusColor",
@@ -447,7 +416,7 @@
         },
         {
           "name": "drawCol",
-          "signature": "func drawCol(screen tcell.Screen, x, y int, bg, fg tcell.Color, text string)",
+          "signature": "func drawCol(screen tcell.Screen, x, y int, fg tcell.Color, text string)",
           "notes": "",
           "author": "",
           "updated_at": ""
@@ -489,7 +458,7 @@
         },
         {
           "name": "renderHeader",
-          "signature": "func renderHeader(screen tcell.Screen, grim *core.Grimoire, w int)",
+          "signature": "func renderHeader(screen tcell.Screen, meta core.MetaData, w int)",
           "notes": "",
           "author": "",
           "updated_at": ""

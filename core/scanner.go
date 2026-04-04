@@ -14,15 +14,29 @@ var ignoredFolders = map[string]bool{
 	"build":        true,
 }
 
-var ignoredExtensions = map[string]bool{
-	".exe": true,
-	".bin": true,
-	".out": true,
-	".png": true,
-	".jpg": true,
-	".gif": true,
-	".mp3": true,
-	".mp4": true,
+var allowedExtensions = map[string]bool{
+	".go":    true,
+	".java":  true,
+	".py":    true,
+	".rb":    true,
+	".php":   true,
+	".rs":    true,
+	".c":     true,
+	".cpp":   true,
+	".cs":    true,
+	".js":    true,
+	".ts":    true,
+	".jsx":   true,
+	".tsx":   true,
+	".html":  true,
+	".css":   true,
+	".scss":  true,
+	".swift": true,
+	".kt":    true,
+}
+
+func isReadme(name string) bool {
+	return strings.ToLower(name) == "readme.md"
 }
 
 func ScanFiles(root string) ([]string, error) {
@@ -40,8 +54,10 @@ func ScanFiles(root string) ([]string, error) {
 			return nil
 		}
 
-		ext := strings.ToLower(filepath.Ext(path))
-		if ignoredExtensions[ext] {
+		name := d.Name()
+		ext := strings.ToLower(filepath.Ext(name))
+
+		if !allowedExtensions[ext] && !isReadme(name) {
 			return nil
 		}
 

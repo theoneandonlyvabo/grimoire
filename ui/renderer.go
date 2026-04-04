@@ -9,32 +9,28 @@ import (
 )
 
 var (
-	colBackground = tcell.NewRGBColor(10, 10, 10)
-	colSurface    = tcell.NewRGBColor(18, 18, 18)
-	colBorder     = tcell.NewRGBColor(201, 169, 110)
-	colTextPri    = tcell.NewRGBColor(232, 228, 216)
-	colTextMuted  = tcell.NewRGBColor(100, 100, 94)
-	colTextDim    = tcell.NewRGBColor(50, 50, 46)
-	colAmber      = tcell.NewRGBColor(240, 192, 112)
-	colAmberBase  = tcell.NewRGBColor(201, 169, 110)
-	colRed        = tcell.NewRGBColor(201, 110, 110)
-	colGreen      = tcell.NewRGBColor(110, 201, 138)
-	colBlue       = tcell.NewRGBColor(110, 158, 201)
+	colBorder    = tcell.NewRGBColor(201, 169, 110)
+	colTextPri   = tcell.NewRGBColor(232, 228, 216)
+	colTextMuted = tcell.NewRGBColor(100, 100, 94)
+	colTextDim   = tcell.NewRGBColor(50, 50, 46)
+	colAmber     = tcell.NewRGBColor(240, 192, 112)
+	colAmberBase = tcell.NewRGBColor(201, 169, 110)
+	colRed       = tcell.NewRGBColor(201, 110, 110)
+	colGreen     = tcell.NewRGBColor(110, 201, 138)
+	colBlue      = tcell.NewRGBColor(110, 158, 201)
 
-	stDefault = tcell.StyleDefault.Background(colBackground).Foreground(colTextPri)
-	stMuted   = tcell.StyleDefault.Background(colBackground).Foreground(colTextMuted)
-	stDim     = tcell.StyleDefault.Background(colBackground).Foreground(colTextDim)
-	stAmber   = tcell.StyleDefault.Background(colBackground).Foreground(colAmber)
-	stBorder  = tcell.StyleDefault.Background(colBackground).Foreground(colBorder)
-	stSurface = tcell.StyleDefault.Background(colSurface).Foreground(colTextPri)
-	stActive  = tcell.StyleDefault.Background(colBackground).Foreground(colAmber)
+	stDefault = tcell.StyleDefault.Foreground(colTextPri)
+	stMuted   = tcell.StyleDefault.Foreground(colTextMuted)
+	stDim     = tcell.StyleDefault.Foreground(colTextDim)
+	stAmber   = tcell.StyleDefault.Foreground(colAmber)
+	stBorder  = tcell.StyleDefault.Foreground(colBorder)
 )
 
 func statusColor(status string) tcell.Color {
 	switch status {
-	case "Stable":
+	case "stable":
 		return colGreen
-	case "Deprecated":
+	case "deprecated":
 		return colRed
 	default:
 		return colAmberBase
@@ -47,8 +43,8 @@ func draw(screen tcell.Screen, x, y int, st tcell.Style, text string) {
 	}
 }
 
-func drawCol(screen tcell.Screen, x, y int, bg, fg tcell.Color, text string) {
-	st := tcell.StyleDefault.Background(bg).Foreground(fg)
+func drawCol(screen tcell.Screen, x, y int, fg tcell.Color, text string) {
+	st := tcell.StyleDefault.Foreground(fg)
 	for i, ch := range text {
 		screen.SetContent(x+i, y, ch, nil, st)
 	}
@@ -97,47 +93,41 @@ func sep(screen tcell.Screen, x1, x2, y int, st tcell.Style) {
 	}
 }
 
-func renderHeader(screen tcell.Screen, grim *core.Grimoire, w int) {
-	fill(screen, 1, 1, w-2, 3, stSurface)
-
-	repo := grim.Meta.Repository
+func renderHeader(screen tcell.Screen, meta core.MetaData, w int) {
+	repo := meta.Repository
 	repo = strings.TrimPrefix(repo, "https://github.com/")
 	repo = strings.TrimPrefix(repo, "git@github.com:")
 	repo = strings.TrimSuffix(repo, ".git")
 
-	date := grim.Meta.LastCommitDate
+	date := meta.LastCommitDate
 	if len(date) > 10 {
 		date = date[:10]
 	}
 
 	x := 2
-	drawCol(screen, x, 1, colSurface, colAmber, "GRIMOIRE")
+	drawCol(screen, x, 1, colAmber, "GRIMOIRE")
 	x += 9
-	drawCol(screen, x, 1, colSurface, colTextDim, "─")
+	drawCol(screen, x, 1, colTextDim, "─")
 	x += 2
-	drawCol(screen, x, 1, colSurface, colBlue, "⎇ "+grim.Meta.Branch)
-	x += len("⎇ "+grim.Meta.Branch) + 2
-	drawCol(screen, x, 1, colSurface, colTextDim, "│")
+	drawCol(screen, x, 1, colBlue, "⎇ "+meta.Branch)
+	x += len("⎇ "+meta.Branch) + 2
+	drawCol(screen, x, 1, colTextDim, "│")
 	x += 2
-	drawCol(screen, x, 1, colSurface, colTextMuted, repo)
+	drawCol(screen, x, 1, colTextMuted, repo)
 	x += len(repo) + 2
-	drawCol(screen, x, 1, colSurface, colTextDim, "│")
+	drawCol(screen, x, 1, colTextDim, "│")
 	x += 2
-	commitStr := fmt.Sprintf("Commit %s · %s", grim.Meta.LastCommit, date)
-	drawCol(screen, x, 1, colSurface, colAmberBase, commitStr)
+	commitStr := fmt.Sprintf("Commit ↑ %s · %s", meta.LastCommit, date)
+	drawCol(screen, x, 1, colAmberBase, commitStr)
 
 	hline(screen, 0, w-1, 2, '├', '┤', stBorder)
 
-	msgLine := fmt.Sprintf("  »  %s", grim.Meta.LastCommitMessage)
-	fill(screen, 1, 3, w-2, 3, stSurface)
-	drawCol(screen, 1, 3, colSurface, colTextDim, strings.Repeat(" ", w-2))
-	drawCol(screen, 2, 3, colSurface, colTextMuted, msgLine)
+	msgLine := fmt.Sprintf("  »  %s", meta.LastCommitMessage)
+	drawCol(screen, 2, 3, colTextMuted, msgLine)
 }
 
 func renderSidebar(screen tcell.Screen, state *AppState, x1, y1, x2, y2 int) {
-	fill(screen, x1, y1, x2, y2, stDefault)
-
-	draw(screen, x1+2, y1+1, stDim, "Files")
+	draw(screen, x1+2, y1+1, stDim, "files")
 	sep(screen, x1+2, x2-1, y1+2, stDim)
 
 	y := y1 + 3
@@ -160,14 +150,14 @@ func renderSidebar(screen tcell.Screen, state *AppState, x1, y1, x2, y2 int) {
 				fg = colAmberBase
 			}
 			if isFocused {
-				drawCol(screen, x1, y, colBackground, colAmber, "▌")
+				drawCol(screen, x1, y, colAmber, "▌")
 			}
-			drawCol(screen, x1+2+indent, y, colBackground, fg, arrow+node.Name+"/")
+			drawCol(screen, x1+2+indent, y, fg, arrow+node.Name+"/")
 		} else {
 			fg := colTextMuted
 			if isFocused {
 				fg = colAmber
-				drawCol(screen, x1, y, colBackground, colAmber, "▌")
+				drawCol(screen, x1, y, colAmber, "▌")
 			}
 
 			dotColor := colTextDim
@@ -175,24 +165,22 @@ func renderSidebar(screen tcell.Screen, state *AppState, x1, y1, x2, y2 int) {
 				dotColor = statusColor(node.Doc.Status)
 			}
 
-			drawCol(screen, x1+2+indent, y, colBackground, dotColor, "●")
+			drawCol(screen, x1+2+indent, y, dotColor, "●")
 
 			maxLen := x2 - x1 - 5 - indent
 			name := node.Name
 			if len(name) > maxLen {
 				name = name[:maxLen-1] + "…"
 			}
-			drawCol(screen, x1+4+indent, y, colBackground, fg, name)
+			drawCol(screen, x1+4+indent, y, fg, name)
 		}
 		y++
 	}
 }
 
 func renderEditor(screen tcell.Screen, state *AppState, x1, y1, x2, y2 int) {
-	fill(screen, x1, y1, x2, y2, stDefault)
-
 	if state.ActiveDoc == nil {
-		draw(screen, x1+3, y1+3, stDim, "Select a file from the sidebar")
+		draw(screen, x1+3, y1+3, stDim, "select a file from the sidebar")
 		return
 	}
 
@@ -200,20 +188,20 @@ func renderEditor(screen tcell.Screen, state *AppState, x1, y1, x2, y2 int) {
 	y := y1 + 2
 	maxW := x2 - x1 - 5
 
-	drawCol(screen, x1+3, y, colBackground, colAmber, doc.LinkedFile)
+	drawCol(screen, x1+3, y, colAmber, doc.LinkedFile)
 	y++
-	drawCol(screen, x1+3, y, colBackground, colTextDim,
+	drawCol(screen, x1+3, y, colTextDim,
 		fmt.Sprintf("author %s  ·  %s", doc.Author, doc.UpdatedAt))
 	y++
 	sep(screen, x1+3, x2-2, y, stDim)
 	y++
 
-	draw(screen, x1+3, y, stDim, "DESCRIPTION")
+	draw(screen, x1+3, y, stDim, "description")
 	y++
 
 	desc := doc.Description
 	if desc == "" {
-		draw(screen, x1+3, y, stDim, "No description yet...")
+		draw(screen, x1+3, y, stDim, "no description yet...")
 		y++
 	} else {
 		for _, line := range wrapText(desc, maxW) {
@@ -229,7 +217,7 @@ func renderEditor(screen tcell.Screen, state *AppState, x1, y1, x2, y2 int) {
 		y++
 		sep(screen, x1+3, x2-2, y, stDim)
 		y++
-		draw(screen, x1+3, y, stDim, "FUNCTIONS")
+		draw(screen, x1+3, y, stDim, "functions")
 		y++
 
 		for _, fn := range doc.Functions {
@@ -248,8 +236,8 @@ func renderEditor(screen tcell.Screen, state *AppState, x1, y1, x2, y2 int) {
 				sig = sig[:maxSig] + "…"
 			}
 
-			drawCol(screen, x1+3, y, colBackground, fnColor, fn.Name)
-			drawCol(screen, x1+3+len(fn.Name)+2, y, colBackground, colTextDim, sig)
+			drawCol(screen, x1+3, y, fnColor, fn.Name)
+			drawCol(screen, x1+3+len(fn.Name)+2, y, colTextDim, sig)
 			y++
 
 			if fn.Notes != "" {
@@ -261,45 +249,44 @@ func renderEditor(screen tcell.Screen, state *AppState, x1, y1, x2, y2 int) {
 }
 
 func renderFooter(screen tcell.Screen, state *AppState, w, h int) {
-	fill(screen, 1, h-2, w-2, h-2, stSurface)
-
 	type bind struct{ key, desc string }
 	binds := []bind{
-		{"Tab", "Switch Pane"},
-		{"↑↓", "Navigate"},
-		{"Enter", "Expand"},
-		{"Ctrl+S", "Save"},
-		{"Q", "Quit"},
+		{"Tab", "sidebar"},
+		{"↑↓", "navigate"},
+		{"← →", "switch pane"},
+		{"Enter", "open"},
+		{"Ctrl+S", "save"},
+		{"Q", "quit"},
 	}
 	if state.ReadOnly {
 		binds = []bind{
-			{"↑↓", "Navigate"},
-			{"Enter", "Open"},
-			{"Q", "Quit"},
+			{"↑↓", "navigate"},
+			{"← →", "switch pane"},
+			{"Enter", "open"},
+			{"Q", "quit"},
 		}
 	}
 
 	x := 3
 	for _, b := range binds {
-		drawCol(screen, x, h-2, colSurface, colAmber, b.key)
+		drawCol(screen, x, h-2, colAmber, b.key)
 		x += len(b.key) + 1
-		drawCol(screen, x, h-2, colSurface, colTextDim, b.desc)
+		drawCol(screen, x, h-2, colTextDim, b.desc)
 		x += len(b.desc) + 3
 	}
 
 	if state.Dirty {
-		msg := "● Unsaved"
-		drawCol(screen, w-len(msg)-2, h-2, colSurface, colAmber, msg)
+		msg := "● unsaved"
+		drawCol(screen, w-len(msg)-2, h-2, colAmber, msg)
 	}
 	if state.ReadOnly {
-		msg := "Read-Only"
-		drawCol(screen, w-len(msg)-2, h-2, colSurface, colTextDim, msg)
+		msg := "read-only"
+		drawCol(screen, w-len(msg)-2, h-2, colTextDim, msg)
 	}
 }
 
 func renderMenu(screen tcell.Screen, selected int) {
 	w, h := screen.Size()
-	fill(screen, 0, 0, w-1, h-1, stDefault)
 	drawBox(screen, 0, 0, w-1, h-1, stBorder)
 
 	cx := w/2 - 4
@@ -311,24 +298,22 @@ func renderMenu(screen tcell.Screen, selected int) {
 	for i, item := range menuItems {
 		y := cy + 3 + i
 		if i == selected {
-			drawCol(screen, cx-2, y, colBackground, colAmber, "›")
-			drawCol(screen, cx, y, colBackground, colAmber, item.command)
+			drawCol(screen, cx-2, y, colAmber, "›")
+			drawCol(screen, cx, y, colAmber, item.command)
 		} else {
 			draw(screen, cx, y, stMuted, item.command)
 		}
 		draw(screen, cx+12, y, stDim, item.description)
 	}
 
-	draw(screen, cx, cy+8, stDim, "↑↓ Navigate   Enter Select   Q Quit")
+	draw(screen, cx, cy+8, stDim, "↑↓ navigate   Enter select   Q quit")
 }
 
 func render(screen tcell.Screen, state *AppState) {
 	w, h := screen.Size()
 
-	fill(screen, 0, 0, w-1, h-1, stDefault)
 	drawBox(screen, 0, 0, w-1, h-1, stBorder)
-
-	renderHeader(screen, state.Grimoire, w)
+	renderHeader(screen, state.LiveMeta, w)
 
 	sidebarX := 26
 	bodyY1 := 4

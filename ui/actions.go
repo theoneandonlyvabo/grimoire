@@ -8,17 +8,16 @@ import (
 
 func RunForge() error {
 	if !core.IsGitRepo() {
-		return fmt.Errorf("Not a git repository, run 'git init' first")
+		return fmt.Errorf("not a git repository, run 'git init' first")
 	}
 
-	metadata, err := core.GetMetadata()
-	if err != nil {
-		return fmt.Errorf("Failed to read git metadata: %w", err)
+	if _, err := core.Load(); err == nil {
+		return fmt.Errorf("grimoire already exists, use 'grimoire carve' to edit")
 	}
 
 	files, err := core.ScanFiles(".")
 	if err != nil {
-		return fmt.Errorf("Failed to scan project files: %w", err)
+		return fmt.Errorf("failed to scan project files: %w", err)
 	}
 
 	author := core.GetUserName()
@@ -30,12 +29,12 @@ func RunForge() error {
 	}
 
 	grimoire := &core.Grimoire{
-		Meta:     metadata,
+		Version:  "1.0.0",
 		Document: documents,
 	}
 
 	if err := core.Save(grimoire); err != nil {
-		return fmt.Errorf("Failed to forge grimoire: %w", err)
+		return fmt.Errorf("failed to forge grimoire: %w", err)
 	}
 
 	fmt.Println("Grimoire forged.")
@@ -45,12 +44,11 @@ func RunForge() error {
 func RunCarve() error {
 	grimoire, err := core.Load()
 	if err != nil {
-		return fmt.Errorf("No grimoire found, run 'grimoire forge' first")
+		return fmt.Errorf("no grimoire found, run 'grimoire forge' first")
 	}
 
-	if err := refreshMetadata(grimoire); err == nil {
-		core.Save(grimoire)
-	}
+	syncFiles(grimoire)
+	core.Save(grimoire)
 
 	return Start(grimoire, false)
 }
@@ -58,32 +56,48 @@ func RunCarve() error {
 func RunCast() error {
 	grimoire, err := core.Load()
 	if err != nil {
-		return fmt.Errorf("No grimoire found, run 'grimoire forge' first")
+		return fmt.Errorf("no grimoire found, run 'grimoire forge' first")
 	}
 
-	if err := refreshMetadata(grimoire); err == nil {
-		core.Save(grimoire)
-	}
+	syncFiles(grimoire)
+	core.Save(grimoire)
 
 	return Start(grimoire, true)
 }
 
-func refreshMetadata(grimoire *core.Grimoire) error {
-	meta, err := core.GetMetadata()
+func syncFiles(grimoire *core.Grimoire) {
+	files, err := core.ScanFiles(".")
 	if err != nil {
-		return err
+		return
 	}
-	grimoire.Meta = meta
-	return nil
+
+	existing := map[string]core.Doc{}
+	for _, doc := range grimoire.Document {
+		existing[doc.LinkedFile] = doc
+	}
+
+	author := core.GetUserName()
+	var updated []core.Doc
+	for _, file := range files {
+		if doc, found := existing[file]; found {
+			updated = append(updated, doc)
+		} else {
+			doc := core.NewDoc(file, author)
+			doc.Functions = core.ParseFunctions(file)
+			updated = append(updated, doc)
+		}
+	}
+
+	grimoire.Document = updated
 }
 
 func runFromMenu(command string) error {
 	switch command {
-	case "Forge":
+	case "forge":
 		return RunForge()
-	case "Carve":
+	case "carve":
 		return RunCarve()
-	case "Cast":
+	case "cast":
 		return RunCast()
 	}
 	return nil

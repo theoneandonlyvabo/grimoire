@@ -7,33 +7,41 @@ import (
 
 func handleKey(screen tcell.Screen, state *AppState, ev *tcell.EventKey) bool {
 	switch ev.Key() {
+
 	case tcell.KeyEscape:
+		if state.ActivePane == 1 {
+			state.ActivePane = 0
+			return false
+		}
 		if state.Dirty {
 			return confirmQuit(screen, state)
 		}
 		return true
 
-	case tcell.KeyRune:
-		switch ev.Rune() {
-		case 'q', 'Q':
-			if state.Dirty {
-				return confirmQuit(screen, state)
-			}
-			return true
-		}
-
 	case tcell.KeyTab:
+		state.ActivePane = 0
+
+	case tcell.KeyLeft:
+		state.ActivePane = 0
+
+	case tcell.KeyRight:
 		if state.ActivePane == 0 {
-			state.ActivePane = 1
-		} else {
-			state.ActivePane = 0
+			node := state.Tree[state.ActiveIndex]
+			if node.IsFolder {
+				if !node.Expanded {
+					state.Tree[state.ActiveIndex].Expanded = true
+					state.Tree = rebuildVisibleTree(state)
+				}
+			} else {
+				updateActiveDoc(state)
+				state.ActivePane = 1
+			}
 		}
 
 	case tcell.KeyUp:
 		if state.ActivePane == 0 {
 			if state.ActiveIndex > 0 {
 				state.ActiveIndex--
-				updateActiveDoc(state)
 			}
 		} else {
 			if state.ActiveField > 0 {
@@ -45,10 +53,11 @@ func handleKey(screen tcell.Screen, state *AppState, ev *tcell.EventKey) bool {
 		if state.ActivePane == 0 {
 			if state.ActiveIndex < len(state.Tree)-1 {
 				state.ActiveIndex++
-				updateActiveDoc(state)
 			}
 		} else {
-			state.ActiveField++
+			if state.ActiveField < 1 {
+				state.ActiveField++
+			}
 		}
 
 	case tcell.KeyEnter:
@@ -67,6 +76,17 @@ func handleKey(screen tcell.Screen, state *AppState, ev *tcell.EventKey) bool {
 		if !state.ReadOnly {
 			core.Save(state.Grimoire)
 			state.Dirty = false
+		}
+
+	case tcell.KeyRune:
+		switch ev.Rune() {
+		case 'q', 'Q':
+			if state.ActivePane == 0 {
+				if state.Dirty {
+					return confirmQuit(screen, state)
+				}
+				return true
+			}
 		}
 	}
 

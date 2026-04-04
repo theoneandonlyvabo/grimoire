@@ -6,6 +6,16 @@ import (
 	"strings"
 )
 
+type MetaData struct {
+	Repository        string
+	Branch            string
+	Commits           int
+	LastCommit        string
+	LastCommitMessage string
+	LastCommitDate    string
+	Contributors      []string
+}
+
 func runGit(args ...string) (string, error) {
 	cmd := exec.Command("git", args...)
 	out, err := cmd.Output()
@@ -39,7 +49,6 @@ func GetMetadata() (MetaData, error) {
 	contributors := getContributors()
 
 	return MetaData{
-		Version:           "1.0.0",
 		Repository:        repo,
 		Branch:            branch,
 		Commits:           commits,

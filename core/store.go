@@ -6,22 +6,11 @@ import (
 	"time"
 )
 
-const GrimoireFile = ".grimoire"
+const GrimoireFile = ".grim"
 
 type Grimoire struct {
-	Meta     MetaData `json:"meta"`
-	Document []Doc    `json:"documents"`
-}
-
-type MetaData struct {
-	Version           string   `json:"version"`
-	Repository        string   `json:"repository"`
-	Branch            string   `json:"branch"`
-	Commits           int      `json:"commits"`
-	LastCommit        string   `json:"last_commit"`
-	LastCommitMessage string   `json:"last_commit_message"`
-	LastCommitDate    string   `json:"last_commit_date"`
-	Contributors      []string `json:"contributors"`
+	Version  string `json:"version"`
+	Document []Doc  `json:"documents"`
 }
 
 type Doc struct {

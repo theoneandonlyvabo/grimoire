@@ -19,6 +19,7 @@ type TreeNode struct {
 
 type AppState struct {
 	Grimoire    *core.Grimoire
+	LiveMeta    core.MetaData
 	Tree        []TreeNode
 	ActiveIndex int
 	ActivePane  int
@@ -38,13 +39,16 @@ func Start(grimoire *core.Grimoire, readOnly bool) error {
 	}
 	defer screen.Fini()
 
+	liveMeta, _ := core.GetMetadata()
+
 	state := &AppState{
 		Grimoire: grimoire,
-		Tree:     buildTree(grimoire),
+		LiveMeta: liveMeta,
 		ReadOnly: readOnly,
 	}
 
-	state.ActiveDoc = findReadmeOrFirst(state)
+	state.Tree = buildCollapsedTree(grimoire)
+	state.ActiveDoc = findReadmeOrFirst(grimoire)
 
 	for {
 		screen.Clear()
@@ -63,9 +67,9 @@ func Start(grimoire *core.Grimoire, readOnly bool) error {
 	}
 }
 
-func buildTree(grimoire *core.Grimoire) []TreeNode {
+func buildCollapsedTree(grimoire *core.Grimoire) []TreeNode {
 	folderFiles := map[string][]string{}
-	rootFiles := []string{}
+	var rootFiles []string
 
 	for _, doc := range grimoire.Document {
 		parts := splitPath(doc.LinkedFile)
@@ -94,10 +98,12 @@ func buildTree(grimoire *core.Grimoire) []TreeNode {
 		})
 	}
 
+	sort.Strings(rootFiles)
 	for _, file := range rootFiles {
 		doc := findDoc(grimoire, file)
+		parts := splitPath(file)
 		nodes = append(nodes, TreeNode{
-			Name:  file,
+			Name:  parts[len(parts)-1],
 			Path:  file,
 			Depth: 0,
 			Doc:   doc,
@@ -109,7 +115,7 @@ func buildTree(grimoire *core.Grimoire) []TreeNode {
 
 func rebuildVisibleTree(state *AppState) []TreeNode {
 	folderFiles := map[string][]string{}
-	rootFiles := []string{}
+	var rootFiles []string
 
 	for _, doc := range state.Grimoire.Document {
 		parts := splitPath(doc.LinkedFile)
@@ -162,10 +168,12 @@ func rebuildVisibleTree(state *AppState) []TreeNode {
 		}
 	}
 
+	sort.Strings(rootFiles)
 	for _, file := range rootFiles {
 		doc := findDoc(state.Grimoire, file)
+		parts := splitPath(file)
 		nodes = append(nodes, TreeNode{
-			Name:  file,
+			Name:  parts[len(parts)-1],
 			Path:  file,
 			Depth: 0,
 			Doc:   doc,
@@ -184,15 +192,15 @@ func findDoc(grimoire *core.Grimoire, path string) *core.Doc {
 	return nil
 }
 
-func findReadmeOrFirst(state *AppState) *core.Doc {
-	for i := range state.Grimoire.Document {
-		name := strings.ToLower(state.Grimoire.Document[i].LinkedFile)
+func findReadmeOrFirst(grimoire *core.Grimoire) *core.Doc {
+	for i := range grimoire.Document {
+		name := strings.ToLower(grimoire.Document[i].LinkedFile)
 		if name == "readme.md" {
-			return &state.Grimoire.Document[i]
+			return &grimoire.Document[i]
 		}
 	}
-	if len(state.Grimoire.Document) > 0 {
-		return &state.Grimoire.Document[0]
+	if len(grimoire.Document) > 0 {
+		return &grimoire.Document[0]
 	}
 	return nil
 }
