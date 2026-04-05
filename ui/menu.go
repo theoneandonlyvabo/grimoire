@@ -1,11 +1,18 @@
 package ui
 
 import (
-	"fmt"
-
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/theoneandonlyvabo/grimoire/core"
 )
+
+const asciiArt = `
+ ██████╗ ██████╗ ██╗███╗   ███╗ ██████╗ ██╗██████╗ ███████╗
+██╔════╝ ██╔══██╗██║████╗ ████║██╔═══██╗██║██╔══██╗██╔════╝
+██║  ███╗██████╔╝██║██╔████╔██║██║   ██║██║██████╔╝█████╗  
+██║   ██║██╔══██╗██║██║╚██╔╝██║██║   ██║██║██╔══██╗██╔══╝  
+╚██████╔╝██║  ██║██║██║ ╚═╝ ██║╚██████╔╝██║██║  ██║███████╗
+ ╚═════╝ ╚═╝  ╚═╝╚═╝╚═╝     ╚═╝ ╚═════╝ ╚═╝╚═╝  ╚═╝╚══════╝`
 
 type menuModel struct {
 	selected  int
@@ -13,6 +20,7 @@ type menuModel struct {
 	items     []menuItem
 	width     int
 	height    int
+	version   core.VersionInfo
 }
 
 type menuItem struct {
@@ -35,7 +43,6 @@ func (m menuModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.WindowSizeMsg:
 		m.width = msg.Width
 		m.height = msg.Height
-
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "up":
@@ -54,7 +61,6 @@ func (m menuModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 		}
 	}
-
 	return m, nil
 }
 
@@ -63,78 +69,78 @@ func (m menuModel) View() string {
 		return ""
 	}
 
-	brand := lipgloss.NewStyle().
-		Foreground(colAmber).
-		Bold(true).
-		Render("GRIMOIRE")
+	var brand string
+	if m.width >= 75 {
+		brand = lipgloss.NewStyle().
+			Foreground(colAmber).
+			Render(asciiArt)
+	} else {
+		brand = lipgloss.NewStyle().
+			Foreground(colAmber).
+			Bold(true).
+			Render("GRIMOIRE")
+	}
 
-	divider := styleVeryDim.Render("────────────────────────────────────")
+	release := lipgloss.NewStyle().
+		Foreground(colTextDim).
+		Render("release  " + m.version.Release)
+
+	divider := lipgloss.NewStyle().
+		Foreground(colTextDim).
+		Render("────────────────────────────────────────")
 
 	var itemLines []string
 	for i, item := range m.items {
-		var line string
 		if i == m.selected {
-			cursor := styleAmber.Render("›")
-			cmd := styleAmber.Render(item.command)
-			desc := styleVeryDim.Render("  " + item.description)
-			line = cursor + " " + cmd + desc
+			cursor := lipgloss.NewStyle().Foreground(colAmber).Render("›")
+			cmd := lipgloss.NewStyle().Foreground(colAmber).Render(item.command)
+			desc := lipgloss.NewStyle().Foreground(colTextMuted).Render("  " + item.description)
+			itemLines = append(itemLines, cursor+" "+cmd+desc)
 		} else {
-			cmd := styleDim.Render("  " + item.command)
-			desc := styleVeryDim.Render("  " + item.description)
-			line = cmd + desc
+			cmd := lipgloss.NewStyle().Foreground(colTextMuted).Render("  " + item.command)
+			desc := lipgloss.NewStyle().Foreground(colTextDim).Render("  " + item.description)
+			itemLines = append(itemLines, cmd+desc)
 		}
-		itemLines = append(itemLines, line)
 	}
 
-	hints := styleVeryDim.Render("↑↓ navigate   enter select   q quit")
+	hints := lipgloss.NewStyle().
+		Foreground(colTextDim).
+		Render("↑↓ navigate   enter select   q quit")
 
-	content := fmt.Sprintf("%s\n%s\n\n%s\n\n%s",
+	padding := lipgloss.NewStyle().Padding(1, 3)
+
+	content := lipgloss.JoinVertical(lipgloss.Left,
 		brand,
+		"",
+		release,
 		divider,
-		joinLines(itemLines),
+		"",
+		itemLines[0],
+		itemLines[1],
+		itemLines[2],
+		"",
 		hints,
 	)
 
-	box := lipgloss.NewStyle().
-		Border(lipgloss.RoundedBorder()).
-		BorderForeground(colBorder).
-		Padding(1, 3)
-
-	boxed := box.Render(content)
-
-	return lipgloss.Place(
-		m.width, m.height,
-		lipgloss.Center, lipgloss.Center,
-		boxed,
-	)
-}
-
-type selectMsg struct {
-	command string
-}
-
-func joinLines(lines []string) string {
-	result := ""
-	for i, l := range lines {
-		if i > 0 {
-			result += "\n"
-		}
-		result += l
-	}
-	return result
+	return padding.Render(content)
 }
 
 func StartMenu() error {
-	m := menuModel{items: menuItems, selected: -1}
-	p := tea.NewProgram(m, tea.WithAltScreen())
+	v := core.GetVersion()
+	m := menuModel{
+		items:    menuItems,
+		selected: 0,
+		version:  v,
+	}
 
+	p := tea.NewProgram(m, tea.WithAltScreen())
 	finalModel, err := p.Run()
 	if err != nil {
 		return err
 	}
 
 	result, ok := finalModel.(menuModel)
-	if !ok || result.selected < 0 {
+	if !ok || !result.confirmed || result.selected < 0 {
 		return nil
 	}
 

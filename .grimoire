@@ -4,10 +4,10 @@
     {
       "id": "README.md",
       "linked_file": "README.md",
-      "description": "im testing this .grimoire - 1 2 3 test ! @ # $ % ^ \u0026 * ( )",
+      "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-05 21:31",
+      "updated_at": "2026-04-05 21:54",
       "functions": null
     },
     {
@@ -16,7 +16,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-05 21:26",
+      "updated_at": "2026-04-05 21:54",
       "functions": [
         {
           "name": "init",
@@ -33,7 +33,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-05 21:26",
+      "updated_at": "2026-04-05 21:54",
       "functions": [
         {
           "name": "init",
@@ -50,7 +50,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-05 21:26",
+      "updated_at": "2026-04-05 21:54",
       "functions": [
         {
           "name": "init",
@@ -67,14 +67,14 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-05 21:26",
+      "updated_at": "2026-04-05 21:54",
       "functions": [
         {
           "name": "Execute",
           "signature": "func Execute()",
-          "notes": "",
-          "author": "",
-          "updated_at": ""
+          "notes": "ekseskusi function yang udh diinitiate darii forge - carve - cast. jangan diubah.",
+          "author": "Airel Adrivano",
+          "updated_at": "2026-04-05 21:56"
         }
       ]
     },
@@ -84,7 +84,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-05 21:26",
+      "updated_at": "2026-04-05 21:54",
       "functions": [
         {
           "name": "runGit",
@@ -129,7 +129,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-05 21:26",
+      "updated_at": "2026-04-05 21:54",
       "functions": [
         {
           "name": "ParseFunctions",
@@ -181,7 +181,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-05 21:26",
+      "updated_at": "2026-04-05 21:54",
       "functions": [
         {
           "name": "isReadme",
@@ -205,7 +205,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-05 21:26",
+      "updated_at": "2026-04-05 21:54",
       "functions": [
         {
           "name": "NewDoc",
@@ -231,12 +231,29 @@
       ]
     },
     {
+      "id": "core\\version.go",
+      "linked_file": "core\\version.go",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-05 21:54",
+      "functions": [
+        {
+          "name": "GetVersion",
+          "signature": "func GetVersion() VersionInfo",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        }
+      ]
+    },
+    {
       "id": "main.go",
       "linked_file": "main.go",
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-05 21:26",
+      "updated_at": "2026-04-05 21:54",
       "functions": [
         {
           "name": "main",
@@ -253,7 +270,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-05 21:26",
+      "updated_at": "2026-04-05 21:54",
       "functions": [
         {
           "name": "RunForge",
@@ -298,7 +315,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-05 21:26",
+      "updated_at": "2026-04-05 21:54",
       "functions": [
         {
           "name": "func (m menuModel) Init() tea.Cmd",
@@ -322,13 +339,6 @@
           "updated_at": ""
         },
         {
-          "name": "joinLines",
-          "signature": "func joinLines(lines []string) string",
-          "notes": "",
-          "author": "",
-          "updated_at": ""
-        },
-        {
           "name": "StartMenu",
           "signature": "func StartMenu() error",
           "notes": "",
@@ -343,7 +353,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-05 21:26",
+      "updated_at": "2026-04-05 21:54",
       "functions": [
         {
           "name": "NewModel",
@@ -374,7 +384,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-05 21:26",
+      "updated_at": "2026-04-05 21:54",
       "functions": [
         {
           "name": "buildCollapsedTree",
@@ -419,7 +429,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-05 21:26",
+      "updated_at": "2026-04-05 21:54",
       "functions": [
         {
           "name": "func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd)",
@@ -464,7 +474,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-05 21:26",
+      "updated_at": "2026-04-05 21:54",
       "functions": [
         {
           "name": "func (m Model) View() string",
@@ -488,15 +498,15 @@
           "updated_at": ""
         },
         {
-          "name": "func (m Model) viewSidebar(width int) string",
-          "signature": "func (m Model) viewSidebar(width int) string",
+          "name": "func (m Model) viewSidebar(width, height int) string",
+          "signature": "func (m Model) viewSidebar(width, height int) string",
           "notes": "",
           "author": "",
           "updated_at": ""
         },
         {
-          "name": "func (m Model) viewEditor(width int) string",
-          "signature": "func (m Model) viewEditor(width int) string",
+          "name": "func (m Model) viewEditor(width, height int) string",
+          "signature": "func (m Model) viewEditor(width, height int) string",
           "notes": "",
           "author": "",
           "updated_at": ""
