@@ -4,7 +4,6 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/gdamore/tcell/v2"
 	"github.com/theoneandonlyvabo/grimoire/core"
 )
 
@@ -15,56 +14,6 @@ type TreeNode struct {
 	Expanded bool
 	Depth    int
 	Doc      *core.Doc
-}
-
-type AppState struct {
-	Grimoire    *core.Grimoire
-	LiveMeta    core.MetaData
-	Tree        []TreeNode
-	ActiveIndex int
-	ActivePane  int
-	ActiveField int
-	ActiveDoc   *core.Doc
-	ReadOnly    bool
-	Dirty       bool
-}
-
-func Start(grimoire *core.Grimoire, readOnly bool) error {
-	screen, err := tcell.NewScreen()
-	if err != nil {
-		return err
-	}
-	if err := screen.Init(); err != nil {
-		return err
-	}
-	defer screen.Fini()
-
-	liveMeta, _ := core.GetMetadata()
-
-	state := &AppState{
-		Grimoire: grimoire,
-		LiveMeta: liveMeta,
-		ReadOnly: readOnly,
-	}
-
-	state.Tree = buildCollapsedTree(grimoire)
-	state.ActiveDoc = findReadmeOrFirst(grimoire)
-
-	for {
-		screen.Clear()
-		render(screen, state)
-		screen.Show()
-
-		event := screen.PollEvent()
-		switch ev := event.(type) {
-		case *tcell.EventResize:
-			screen.Sync()
-		case *tcell.EventKey:
-			if done := handleKey(screen, state, ev); done {
-				return nil
-			}
-		}
-	}
 }
 
 func buildCollapsedTree(grimoire *core.Grimoire) []TreeNode {
@@ -113,11 +62,11 @@ func buildCollapsedTree(grimoire *core.Grimoire) []TreeNode {
 	return nodes
 }
 
-func rebuildVisibleTree(state *AppState) []TreeNode {
+func rebuildVisibleTree(grimoire *core.Grimoire, current []TreeNode) []TreeNode {
 	folderFiles := map[string][]string{}
 	var rootFiles []string
 
-	for _, doc := range state.Grimoire.Document {
+	for _, doc := range grimoire.Document {
 		parts := splitPath(doc.LinkedFile)
 		if len(parts) > 1 {
 			folder := parts[0]
@@ -134,7 +83,7 @@ func rebuildVisibleTree(state *AppState) []TreeNode {
 	sort.Strings(folders)
 
 	expandedState := map[string]bool{}
-	for _, node := range state.Tree {
+	for _, node := range current {
 		if node.IsFolder {
 			expandedState[node.Name] = node.Expanded
 		}
@@ -155,11 +104,10 @@ func rebuildVisibleTree(state *AppState) []TreeNode {
 			files := folderFiles[folder]
 			sort.Strings(files)
 			for _, file := range files {
-				doc := findDoc(state.Grimoire, file)
+				doc := findDoc(grimoire, file)
 				parts := splitPath(file)
-				name := parts[len(parts)-1]
 				nodes = append(nodes, TreeNode{
-					Name:  name,
+					Name:  parts[len(parts)-1],
 					Path:  file,
 					Depth: 1,
 					Doc:   doc,
@@ -170,7 +118,7 @@ func rebuildVisibleTree(state *AppState) []TreeNode {
 
 	sort.Strings(rootFiles)
 	for _, file := range rootFiles {
-		doc := findDoc(state.Grimoire, file)
+		doc := findDoc(grimoire, file)
 		parts := splitPath(file)
 		nodes = append(nodes, TreeNode{
 			Name:  parts[len(parts)-1],
@@ -192,17 +140,13 @@ func findDoc(grimoire *core.Grimoire, path string) *core.Doc {
 	return nil
 }
 
-func findReadmeOrFirst(grimoire *core.Grimoire) *core.Doc {
-	for i := range grimoire.Document {
-		name := strings.ToLower(grimoire.Document[i].LinkedFile)
-		if name == "readme.md" {
-			return &grimoire.Document[i]
+func findReadmeOrFirst(grimoire *core.Grimoire) int {
+	for i, doc := range grimoire.Document {
+		if strings.ToLower(doc.LinkedFile) == "readme.md" {
+			return i
 		}
 	}
-	if len(grimoire.Document) > 0 {
-		return &grimoire.Document[0]
-	}
-	return nil
+	return 0
 }
 
 func splitPath(path string) []string {

@@ -3,12 +3,13 @@ package ui
 import (
 	"fmt"
 
+	tea "github.com/charmbracelet/bubbletea"
 	"github.com/theoneandonlyvabo/grimoire/core"
 )
 
 func RunForge() error {
 	if !core.IsGitRepo() {
-		return fmt.Errorf("not a git repository, run 'git init' first")
+		return fmt.Errorf("not a git repository")
 	}
 
 	if _, err := core.Load(); err == nil {
@@ -50,7 +51,7 @@ func RunCarve() error {
 	syncFiles(grimoire)
 	core.Save(grimoire)
 
-	return Start(grimoire, false)
+	return runTUI(grimoire, false)
 }
 
 func RunCast() error {
@@ -62,7 +63,14 @@ func RunCast() error {
 	syncFiles(grimoire)
 	core.Save(grimoire)
 
-	return Start(grimoire, true)
+	return runTUI(grimoire, true)
+}
+
+func runTUI(grimoire *core.Grimoire, readOnly bool) error {
+	m := NewModel(grimoire, readOnly)
+	p := tea.NewProgram(m, tea.WithAltScreen())
+	_, err := p.Run()
+	return err
 }
 
 func syncFiles(grimoire *core.Grimoire) {
@@ -89,16 +97,4 @@ func syncFiles(grimoire *core.Grimoire) {
 	}
 
 	grimoire.Document = updated
-}
-
-func runFromMenu(command string) error {
-	switch command {
-	case "forge":
-		return RunForge()
-	case "carve":
-		return RunCarve()
-	case "cast":
-		return RunCast()
-	}
-	return nil
 }

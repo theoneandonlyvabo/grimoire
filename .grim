@@ -83,8 +83,8 @@
       "linked_file": "core\\git.go",
       "description": "",
       "status": "wip",
-      "author": "unknown",
-      "updated_at": "2026-04-04 23:13",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-05 20:52",
       "functions": [
         {
           "name": "runGit",
