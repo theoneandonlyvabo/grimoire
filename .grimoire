@@ -6,8 +6,8 @@
       "linked_file": "README.md",
       "description": "",
       "status": "wip",
-      "author": "unknown",
-      "updated_at": "2026-04-04 23:13",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-05 21:26",
       "functions": null
     },
     {
@@ -15,8 +15,8 @@
       "linked_file": "cmd\\carve.go",
       "description": "",
       "status": "wip",
-      "author": "unknown",
-      "updated_at": "2026-04-04 23:13",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-05 21:26",
       "functions": [
         {
           "name": "init",
@@ -32,8 +32,8 @@
       "linked_file": "cmd\\cast.go",
       "description": "",
       "status": "wip",
-      "author": "unknown",
-      "updated_at": "2026-04-04 23:13",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-05 21:26",
       "functions": [
         {
           "name": "init",
@@ -49,8 +49,8 @@
       "linked_file": "cmd\\forge.go",
       "description": "",
       "status": "wip",
-      "author": "unknown",
-      "updated_at": "2026-04-04 23:13",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-05 21:26",
       "functions": [
         {
           "name": "init",
@@ -66,8 +66,8 @@
       "linked_file": "cmd\\root.go",
       "description": "",
       "status": "wip",
-      "author": "unknown",
-      "updated_at": "2026-04-04 23:13",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-05 21:26",
       "functions": [
         {
           "name": "Execute",
@@ -84,7 +84,7 @@
       "description": "",
       "status": "wip",
       "author": "Airel Adrivano",
-      "updated_at": "2026-04-05 20:52",
+      "updated_at": "2026-04-05 21:26",
       "functions": [
         {
           "name": "runGit",
@@ -128,8 +128,8 @@
       "linked_file": "core\\parser.go",
       "description": "",
       "status": "wip",
-      "author": "unknown",
-      "updated_at": "2026-04-04 23:13",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-05 21:26",
       "functions": [
         {
           "name": "ParseFunctions",
@@ -180,8 +180,8 @@
       "linked_file": "core\\scanner.go",
       "description": "",
       "status": "wip",
-      "author": "unknown",
-      "updated_at": "2026-04-04 23:13",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-05 21:26",
       "functions": [
         {
           "name": "isReadme",
@@ -204,8 +204,8 @@
       "linked_file": "core\\store.go",
       "description": "",
       "status": "wip",
-      "author": "unknown",
-      "updated_at": "2026-04-04 23:13",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-05 21:26",
       "functions": [
         {
           "name": "NewDoc",
@@ -235,8 +235,8 @@
       "linked_file": "main.go",
       "description": "",
       "status": "wip",
-      "author": "unknown",
-      "updated_at": "2026-04-04 23:13",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-05 21:26",
       "functions": [
         {
           "name": "main",
@@ -252,8 +252,8 @@
       "linked_file": "ui\\actions.go",
       "description": "",
       "status": "wip",
-      "author": "unknown",
-      "updated_at": "2026-04-04 23:13",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-05 21:26",
       "functions": [
         {
           "name": "RunForge",
@@ -277,15 +277,15 @@
           "updated_at": ""
         },
         {
-          "name": "syncFiles",
-          "signature": "func syncFiles(grimoire *core.Grimoire)",
+          "name": "runTUI",
+          "signature": "func runTUI(grimoire *core.Grimoire, readOnly bool) error",
           "notes": "",
           "author": "",
           "updated_at": ""
         },
         {
-          "name": "runFromMenu",
-          "signature": "func runFromMenu(command string) error",
+          "name": "syncFiles",
+          "signature": "func syncFiles(grimoire *core.Grimoire)",
           "notes": "",
           "author": "",
           "updated_at": ""
@@ -293,20 +293,89 @@
       ]
     },
     {
-      "id": "ui\\app.go",
-      "linked_file": "ui\\app.go",
+      "id": "ui\\menu.go",
+      "linked_file": "ui\\menu.go",
       "description": "",
       "status": "wip",
-      "author": "unknown",
-      "updated_at": "2026-04-04 23:13",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-05 21:26",
       "functions": [
         {
-          "name": "Start",
-          "signature": "func Start(grimoire *core.Grimoire, readOnly bool) error",
+          "name": "func (m menuModel) Init() tea.Cmd",
+          "signature": "func (m menuModel) Init() tea.Cmd",
           "notes": "",
           "author": "",
           "updated_at": ""
         },
+        {
+          "name": "func (m menuModel) Update(msg tea.Msg) (tea.Model, tea.Cmd)",
+          "signature": "func (m menuModel) Update(msg tea.Msg) (tea.Model, tea.Cmd)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "func (m menuModel) View() string",
+          "signature": "func (m menuModel) View() string",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "joinLines",
+          "signature": "func joinLines(lines []string) string",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "StartMenu",
+          "signature": "func StartMenu() error",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        }
+      ]
+    },
+    {
+      "id": "ui\\model.go",
+      "linked_file": "ui\\model.go",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-05 21:26",
+      "functions": [
+        {
+          "name": "NewModel",
+          "signature": "func NewModel(grimoire *core.Grimoire, readOnly bool) Model",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "func (m Model) Init() tea.Cmd",
+          "signature": "func (m Model) Init() tea.Cmd",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "func (m Model) ActiveDoc() *core.Doc",
+          "signature": "func (m Model) ActiveDoc() *core.Doc",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        }
+      ]
+    },
+    {
+      "id": "ui\\tree.go",
+      "linked_file": "ui\\tree.go",
+      "description": "",
+      "status": "wip",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-05 21:26",
+      "functions": [
         {
           "name": "buildCollapsedTree",
           "signature": "func buildCollapsedTree(grimoire *core.Grimoire) []TreeNode",
@@ -316,7 +385,7 @@
         },
         {
           "name": "rebuildVisibleTree",
-          "signature": "func rebuildVisibleTree(state *AppState) []TreeNode",
+          "signature": "func rebuildVisibleTree(grimoire *core.Grimoire, current []TreeNode) []TreeNode",
           "notes": "",
           "author": "",
           "updated_at": ""
@@ -330,7 +399,7 @@
         },
         {
           "name": "findReadmeOrFirst",
-          "signature": "func findReadmeOrFirst(grimoire *core.Grimoire) *core.Doc",
+          "signature": "func findReadmeOrFirst(grimoire *core.Grimoire) int",
           "notes": "",
           "author": "",
           "updated_at": ""
@@ -345,30 +414,44 @@
       ]
     },
     {
-      "id": "ui\\input.go",
-      "linked_file": "ui\\input.go",
+      "id": "ui\\update.go",
+      "linked_file": "ui\\update.go",
       "description": "",
       "status": "wip",
-      "author": "unknown",
-      "updated_at": "2026-04-04 23:13",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-05 21:26",
       "functions": [
         {
-          "name": "handleKey",
-          "signature": "func handleKey(screen tcell.Screen, state *AppState, ev *tcell.EventKey) bool",
+          "name": "func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd)",
+          "signature": "func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd)",
           "notes": "",
           "author": "",
           "updated_at": ""
         },
         {
-          "name": "updateActiveDoc",
-          "signature": "func updateActiveDoc(state *AppState)",
+          "name": "func (m Model) handleNavKey(msg tea.KeyMsg) (tea.Model, tea.Cmd)",
+          "signature": "func (m Model) handleNavKey(msg tea.KeyMsg) (tea.Model, tea.Cmd)",
           "notes": "",
           "author": "",
           "updated_at": ""
         },
         {
-          "name": "confirmQuit",
-          "signature": "func confirmQuit(screen tcell.Screen, state *AppState) bool",
+          "name": "func (m Model) handleEditKey(msg tea.KeyMsg) (tea.Model, tea.Cmd)",
+          "signature": "func (m Model) handleEditKey(msg tea.KeyMsg) (tea.Model, tea.Cmd)",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "func (m Model) enterEditMode() Model",
+          "signature": "func (m Model) enterEditMode() Model",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "func (m Model) commitEdit() Model",
+          "signature": "func (m Model) commitEdit() Model",
           "notes": "",
           "author": "",
           "updated_at": ""
@@ -376,131 +459,72 @@
       ]
     },
     {
-      "id": "ui\\menu.go",
-      "linked_file": "ui\\menu.go",
+      "id": "ui\\view.go",
+      "linked_file": "ui\\view.go",
       "description": "",
       "status": "wip",
-      "author": "unknown",
-      "updated_at": "2026-04-04 23:13",
+      "author": "Airel Adrivano",
+      "updated_at": "2026-04-05 21:26",
       "functions": [
         {
-          "name": "StartMenu",
-          "signature": "func StartMenu() error",
+          "name": "func (m Model) View() string",
+          "signature": "func (m Model) View() string",
           "notes": "",
           "author": "",
           "updated_at": ""
-        }
-      ]
-    },
-    {
-      "id": "ui\\renderer.go",
-      "linked_file": "ui\\renderer.go",
-      "description": "",
-      "status": "wip",
-      "author": "unknown",
-      "updated_at": "2026-04-04 23:13",
-      "functions": [
+        },
+        {
+          "name": "func (m Model) viewHeader() string",
+          "signature": "func (m Model) viewHeader() string",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "func (m Model) viewBody() string",
+          "signature": "func (m Model) viewBody() string",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "func (m Model) viewSidebar(width int) string",
+          "signature": "func (m Model) viewSidebar(width int) string",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "func (m Model) viewEditor(width int) string",
+          "signature": "func (m Model) viewEditor(width int) string",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
+        {
+          "name": "func (m Model) viewField(label, content, placeholder string, active, editing bool, width int) string",
+          "signature": "func (m Model) viewField(label, content, placeholder string, active, editing bool, width int) string",
+          "notes": "",
+          "author": "",
+          "updated_at": ""
+        },
         {
           "name": "statusColor",
-          "signature": "func statusColor(status string) tcell.Color",
+          "signature": "func statusColor(status string) lipgloss.Color",
           "notes": "",
           "author": "",
           "updated_at": ""
         },
         {
-          "name": "draw",
-          "signature": "func draw(screen tcell.Screen, x, y int, st tcell.Style, text string)",
+          "name": "func (m Model) viewFooter() string",
+          "signature": "func (m Model) viewFooter() string",
           "notes": "",
           "author": "",
           "updated_at": ""
         },
         {
-          "name": "drawCol",
-          "signature": "func drawCol(screen tcell.Screen, x, y int, fg tcell.Color, text string)",
-          "notes": "",
-          "author": "",
-          "updated_at": ""
-        },
-        {
-          "name": "fill",
-          "signature": "func fill(screen tcell.Screen, x1, y1, x2, y2 int, st tcell.Style)",
-          "notes": "",
-          "author": "",
-          "updated_at": ""
-        },
-        {
-          "name": "drawBox",
-          "signature": "func drawBox(screen tcell.Screen, x1, y1, x2, y2 int, st tcell.Style)",
-          "notes": "",
-          "author": "",
-          "updated_at": ""
-        },
-        {
-          "name": "hline",
-          "signature": "func hline(screen tcell.Screen, x1, x2, y int, leftCap, rightCap rune, st tcell.Style)",
-          "notes": "",
-          "author": "",
-          "updated_at": ""
-        },
-        {
-          "name": "vline",
-          "signature": "func vline(screen tcell.Screen, x, y1, y2 int, st tcell.Style)",
-          "notes": "",
-          "author": "",
-          "updated_at": ""
-        },
-        {
-          "name": "sep",
-          "signature": "func sep(screen tcell.Screen, x1, x2, y int, st tcell.Style)",
-          "notes": "",
-          "author": "",
-          "updated_at": ""
-        },
-        {
-          "name": "renderHeader",
-          "signature": "func renderHeader(screen tcell.Screen, meta core.MetaData, w int)",
-          "notes": "",
-          "author": "",
-          "updated_at": ""
-        },
-        {
-          "name": "renderSidebar",
-          "signature": "func renderSidebar(screen tcell.Screen, state *AppState, x1, y1, x2, y2 int)",
-          "notes": "",
-          "author": "",
-          "updated_at": ""
-        },
-        {
-          "name": "renderEditor",
-          "signature": "func renderEditor(screen tcell.Screen, state *AppState, x1, y1, x2, y2 int)",
-          "notes": "",
-          "author": "",
-          "updated_at": ""
-        },
-        {
-          "name": "renderFooter",
-          "signature": "func renderFooter(screen tcell.Screen, state *AppState, w, h int)",
-          "notes": "",
-          "author": "",
-          "updated_at": ""
-        },
-        {
-          "name": "renderMenu",
-          "signature": "func renderMenu(screen tcell.Screen, selected int)",
-          "notes": "",
-          "author": "",
-          "updated_at": ""
-        },
-        {
-          "name": "render",
-          "signature": "func render(screen tcell.Screen, state *AppState)",
-          "notes": "",
-          "author": "",
-          "updated_at": ""
-        },
-        {
-          "name": "wrapText",
-          "signature": "func wrapText(text string, width int) []string",
+          "name": "wrapString",
+          "signature": "func wrapString(text string, width int) string",
           "notes": "",
           "author": "",
           "updated_at": ""
